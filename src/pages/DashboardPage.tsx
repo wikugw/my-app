@@ -1,7 +1,7 @@
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Button } from "../components/micro/Button";
+import { Button } from "../components/micro/button/Button";
 
 const DashboardPage = () => {
   const [user] = useAuthState(auth);

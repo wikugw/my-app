@@ -1,0 +1,18 @@
+// styles/base/_globals.scss
+@import 'variables';
+@import 'mixins';
+
+:root {
+  --header-height: 60px;
+  --sidebar-width: 250px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+}

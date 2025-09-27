@@ -1,0 +1,54 @@
+.input {
+  width: 100%;
+  padding: map-get($spacing, sm) map-get($spacing, md);
+  border: 1px solid map-get($colors, border);
+  border-radius: map-get($border-radius, md);
+  font-size: 14px;
+  line-height: 1.5;
+  color: map-get($colors, text);
+  background-color: white;
+  @include transition-all;
+
+  // States
+  &:focus {
+    @include focus-ring;
+    border-color: map-get($colors, primary);
+  }
+
+  &:hover:not(:focus) {
+    border-color: darken(map-get($colors, border), 10%);
+  }
+
+  // Disabled state
+  &:disabled {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  // Error state (when used with error class)
+  &.error {
+    border-color: map-get($colors, danger);
+    
+    &:focus {
+      outline-color: map-get($colors, danger);
+    }
+  }
+
+  // Sizes
+  &--small {
+    padding: map-get($spacing, xs) map-get($spacing, sm);
+    font-size: 12px;
+  }
+
+  &--large {
+    padding: map-get($spacing, md) map-get($spacing, lg);
+    font-size: 16px;
+  }
+
+  // Responsive
+  @include respond-to('tablet') {
+    font-size: 16px;
+  }
+}
