@@ -1,6 +1,6 @@
 .button {
   @include button-reset;
-  padding: map-get($spacing, 'sm') map-get($spacing, 'lg');
+  padding: map.get($spacing, 'sm') map.get($spacing, 'lg');
   border-radius: 4px;
   font-weight: 500;
   transition: all 0.2s ease;
@@ -12,30 +12,30 @@
   }
 
   &--primary {
-    background: map-get($colors, 'primary');
+    background: map.get($colors, 'primary');
     color: white;
 
     &:hover:not(:disabled) {
-      background: darken(map-get($colors, 'primary'), 10%);
+      background: color.adjust(map.get($colors, 'primary'), $lightness: -10%);
     }
   }
 
   &--secondary {
-    background: map-get($colors, 'secondary');
+    background: map.get($colors, 'secondary');
     color: white;
 
     &:hover:not(:disabled) {
-      background: darken(map-get($colors, 'secondary'), 10%);
+      background: color.adjust(map.get($colors, 'secondary'), $lightness: -10%);
     }
   }
 
   &--small {
-    padding: map-get($spacing, 'xs') map-get($spacing, 'md');
+    padding: map.get($spacing, 'xs') map.get($spacing, 'md');
     font-size: 14px;
   }
 
   &--large {
-    padding: map-get($spacing, 'md') map-get($spacing, 'xl');
+    padding: map.get($spacing, 'md') map.get($spacing, 'xl');
     font-size: 18px;
   }
 

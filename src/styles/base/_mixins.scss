@@ -1,6 +1,6 @@
 // styles/base/_mixins.scss
 @mixin focus-ring {
-  outline: 2px solid map-get($colors, primary);
+  outline: 2px solid map.get($colors, primary);
   outline-offset: 2px;
 }
 
@@ -9,8 +9,8 @@
 }
 
 @mixin respond-to($breakpoint) {
-  @if map-has-key($breakpoints, $breakpoint) {
-    @media (min-width: map-get($breakpoints, $breakpoint)) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media (min-width: map.get($breakpoints, $breakpoint)) {
       @content;
     }
   }

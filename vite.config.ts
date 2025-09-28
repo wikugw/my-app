@@ -9,9 +9,12 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         additionalData: `
+          @use "sass:map";
+          @use "sass:color";
           @import "@/styles/base/variables";
           @import "@/styles/base/mixins";
         `,
+        silenceDeprecations: ['import', 'global-builtin', 'color-functions']
       }
     }
   },

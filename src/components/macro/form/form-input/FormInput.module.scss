@@ -1,19 +1,19 @@
 .formInput {
   display: flex;
   flex-direction: column;
-  gap: map-get($spacing, xs);
-  margin-bottom: map-get($spacing, md);
+  gap: map.get($spacing, xs);
+  margin-bottom: map.get($spacing, md);
 
   // Label styles
   .label {
     font-weight: 500;
     font-size: 14px;
-    color: map-get($colors, text);
-    margin-bottom: map-get($spacing, xs);
+    color: map.get($colors, text);
+    margin-bottom: map.get($spacing, xs);
 
     &--required::after {
       content: " *";
-      color: map-get($colors, danger);
+      color: map.get($colors, danger);
     }
   }
 
@@ -25,19 +25,19 @@
 
     &.hasIcon {
       .input {
-        padding-left: map-get($spacing, xl);
+        padding-left: map.get($spacing, xl);
       }
     }
   }
 
   // Error message styles
   .error {
-    color: map-get($colors, danger);
+    color: map.get($colors, danger);
     font-size: 12px;
-    margin-top: map-get($spacing, xs);
+    margin-top: map.get($spacing, xs);
     display: flex;
     align-items: center;
-    gap: map-get($spacing, xs);
+    gap: map.get($spacing, xs);
 
     &::before {
       content: "⚠";
@@ -47,23 +47,23 @@
 
   // Success state
   .success {
-    color: map-get($colors, success);
+    color: map.get($colors, success);
     font-size: 12px;
-    margin-top: map-get($spacing, xs);
+    margin-top: map.get($spacing, xs);
   }
 
   // Helper text
   .helper {
-    color: map-get($colors, secondary);
+    color: map.get($colors, secondary);
     font-size: 12px;
-    margin-top: map-get($spacing, xs);
+    margin-top: map.get($spacing, xs);
   }
 
   // Layout variants
   &--horizontal {
     flex-direction: row;
     align-items: center;
-    gap: map-get($spacing, md);
+    gap: map.get($spacing, md);
 
     .label {
       min-width: 120px;
