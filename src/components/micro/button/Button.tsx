@@ -1,35 +1,36 @@
-// components/ui/Button/Button.tsx
-import styles from './Button.module.scss';
-import clsx from 'clsx';
+import { Button as ChakraButton } from "@chakra-ui/react";
+import type { ReactNode } from "react";
 
 interface ButtonProps {
-  variant?: 'primary' | 'secondary';
-  size?: 'small' | 'medium' | 'large';
-  disabled?: boolean;
-  children: React.ReactNode;
+  variant?: "solid" | "outline" | "ghost"; // Chakra's built-in variants
+  colorScheme?: string; // e.g. "teal", "red", "blue"
+  size?: "sm" | "md" | "lg"; // Chakra's sizes
+  isDisabled?: boolean;
+  children: ReactNode;
   className?: string;
   onClick?: () => void;
-  type?: 'button' | 'submit' | 'reset';
+  type?: "button" | "submit" | "reset";
 }
 
 export function Button({
-  variant = 'primary',
-  size = 'medium',
-  disabled = false,
+  variant = "solid",
+  colorScheme = "teal",
+  size = "md",
+  isDisabled = false,
   children,
   className,
   ...props
 }: ButtonProps) {
-  const buttonClass = clsx(
-    styles.button,
-    styles[`button--${variant}`],
-    styles[`button--${size}`],
-    className
-  );
-
   return (
-    <button className={buttonClass} disabled={disabled} {...props}>
+    <ChakraButton
+      variant={variant}
+      colorScheme={colorScheme}
+      size={size}
+      disabled={isDisabled}
+      className={className}
+      {...props}
+    >
       {children}
-    </button>
+    </ChakraButton>
   );
 }

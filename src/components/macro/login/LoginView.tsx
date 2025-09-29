@@ -2,9 +2,9 @@ import { GoogleAuthProvider, sendSignInLinkToEmail, signInWithPopup } from "fire
 import { Button } from "../../micro/button/Button";
 import { actionCodeSettings, auth } from "../../../firebase";
 import * as yup from "yup";
-import { FormInput } from "../form/form-input/FormInput";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Input } from "../../micro/input/Input";
 
 const schema = yup.object({
   email: yup
@@ -20,6 +20,8 @@ function LoginView() {
   const methods = useForm<LoginFormInputs>({
     resolver: yupResolver(schema),
     defaultValues: { email: "" },
+    mode: "onBlur",
+    reValidateMode: "onChange",
   });
 
   const {
@@ -57,7 +59,7 @@ function LoginView() {
       <h2>Login</h2>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(handleLogin)}>
-          <FormInput name="email" label="Email" type="email" />
+          <Input name="email" type="email" label="email" />
           <Button type="submit">
             {isSubmitting ? "Sending..." : "Login with Email"}
           </Button>
