@@ -1,22 +1,16 @@
-import { Button as ChakraButton } from "@chakra-ui/react";
+import { Button as ChakraButton, type ButtonProps as ChakraButtonProps } from "@chakra-ui/react";
 import type { ReactNode } from "react";
 
-interface ButtonProps {
-  variant?: "solid" | "outline" | "ghost"; // Chakra's built-in variants
-  colorScheme?: string; // e.g. "teal", "red", "blue"
-  size?: "sm" | "md" | "lg"; // Chakra's sizes
-  isDisabled?: boolean;
+interface ButtonProps extends Omit<ChakraButtonProps, "children"> {
   children: ReactNode;
   className?: string;
-  onClick?: () => void;
-  type?: "button" | "submit" | "reset";
 }
 
 export function Button({
   variant = "solid",
   colorScheme = "teal",
   size = "md",
-  isDisabled = false,
+  disabled = false,
   children,
   className,
   ...props
@@ -26,7 +20,7 @@ export function Button({
       variant={variant}
       colorScheme={colorScheme}
       size={size}
-      disabled={isDisabled}
+      disabled={disabled}
       className={className}
       {...props}
     >
