@@ -6,29 +6,33 @@ import { ConfirmDialog } from '../../micro/modal/Confirmation';
 import { useState } from 'react';
 
 export const AvatarPopoverButtons = () => {
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleLogout = async () => {
     await signOut(auth);
-    setIsDialogOpen(false)
+    setIsDialogOpen(false);
   };
 
   return (
     <>
-    <Portal>
-    <Popover.Positioner>
-        <Popover.Content width="auto">
-        <Popover.Arrow />
-        <Popover.Body>
-            <Button colorKey='gray' w="full" onClick={() => setIsDialogOpen(true)}>
-            Logout
-            </Button>
-        </Popover.Body>
-        </Popover.Content>
-    </Popover.Positioner>
-    </Portal>
+      <Portal>
+        <Popover.Positioner>
+          <Popover.Content width="auto">
+            <Popover.Arrow />
+            <Popover.Body>
+              <Button
+                colorKey="gray"
+                w="full"
+                onClick={() => setIsDialogOpen(true)}
+              >
+                Logout
+              </Button>
+            </Popover.Body>
+          </Popover.Content>
+        </Popover.Positioner>
+      </Portal>
 
-    <ConfirmDialog
+      <ConfirmDialog
         isOpen={isDialogOpen}
         onOpenChange={() => setIsDialogOpen(false)}
         onConfirm={handleLogout}

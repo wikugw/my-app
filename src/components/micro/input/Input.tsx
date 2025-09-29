@@ -38,7 +38,7 @@ export const Input = ({
     <Controller
       name={name}
       control={control}
-      rules={rules} // ✅ pass rules to Controller
+      rules={rules}
       render={({ field }) => (
         <Box w="100%">
           {label && (

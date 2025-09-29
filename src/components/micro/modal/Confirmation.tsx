@@ -1,5 +1,5 @@
-import { Button, CloseButton, Dialog, Portal } from "@chakra-ui/react"
-import type { ReactNode } from "react";
+import { Button, CloseButton, Dialog, Portal } from '@chakra-ui/react';
+import type { ReactNode } from 'react';
 
 interface ConfirmDialogProps {
   isOpen: boolean;
@@ -13,9 +13,9 @@ export const ConfirmDialog = ({
   isOpen,
   onOpenChange,
   onConfirm,
-  title = "Confirm Action",
-  body = "Are you sure?",
-}: ConfirmDialogProps)=> {
+  title = 'Confirm Action',
+  body = 'Are you sure?',
+}: ConfirmDialogProps) => {
   return (
     <Dialog.Root open={isOpen}>
       <Portal>
@@ -26,14 +26,14 @@ export const ConfirmDialog = ({
               <Dialog.Title>{title}</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
-              <p>
-                {body}
-              </p>
+              <p>{body}</p>
             </Dialog.Body>
             <Dialog.Footer>
               <Dialog.ActionTrigger asChild>
-                <Button onClick={onOpenChange} variant="outline">Cancel</Button>
-              </Dialog.ActionTrigger >
+                <Button onClick={onOpenChange} variant="outline">
+                  Cancel
+                </Button>
+              </Dialog.ActionTrigger>
               <Button onClick={onConfirm}>Confirm</Button>
             </Dialog.Footer>
             <Dialog.CloseTrigger asChild>
@@ -43,5 +43,5 @@ export const ConfirmDialog = ({
         </Dialog.Positioner>
       </Portal>
     </Dialog.Root>
-  )
-}
+  );
+};

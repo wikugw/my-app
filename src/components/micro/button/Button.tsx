@@ -13,11 +13,11 @@ interface ButtonProps
   children: ReactNode;
   className?: string;
   colorKey?: ColorKey; // renamed prop
-  variant?: 'solid' | 'outline' | 'ghost';
+  variantKey?: 'solid' | 'outline' | 'ghost' | 'subtle' | 'surface' | 'plain';
 }
 
 export function Button({
-  variant = 'solid',
+  variantKey = 'solid',
   colorKey = 'primary', // default design system color
   size = 'md',
   disabled = false,
@@ -25,20 +25,20 @@ export function Button({
   className,
   ...props
 }: ButtonProps) {
-  const bgColor = variant === 'solid' ? COLORS[colorKey] : undefined;
-  const borderColor = variant === 'outline' ? COLORS[colorKey] : undefined;
-  const colorText = variant === 'solid' ? 'white' : COLORS[colorKey];
+  const bgColor = variantKey === 'solid' ? COLORS[colorKey] : undefined;
+  const borderColor = variantKey === 'outline' ? COLORS[colorKey] : undefined;
+  const colorText = variantKey === 'solid' ? 'white' : COLORS[colorKey];
 
   return (
     <ChakraButton
-      variant={variant}
+      variant={variantKey}
       size={size}
       disabled={disabled}
       bg={bgColor}
       borderColor={borderColor}
       color={colorText}
       _hover={
-        variant === 'solid'
+        variantKey === 'solid'
           ? { bg: COLORS[colorKey] }
           : { bg: `${COLORS[colorKey]}20` } // slightly transparent hover
       }
