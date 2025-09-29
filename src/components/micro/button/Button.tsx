@@ -1,15 +1,18 @@
-import { Button as ChakraButton, type ButtonProps as ChakraButtonProps } from "@chakra-ui/react";
-import type { ReactNode } from "react";
+import {
+  Button as ChakraButton,
+  type ButtonProps as ChakraButtonProps,
+} from '@chakra-ui/react';
+import type { ReactNode } from 'react';
 
-interface ButtonProps extends Omit<ChakraButtonProps, "children"> {
+interface ButtonProps extends Omit<ChakraButtonProps, 'children'> {
   children: ReactNode;
   className?: string;
 }
 
 export function Button({
-  variant = "solid",
-  colorScheme = "teal",
-  size = "md",
+  variant = 'solid',
+  colorScheme = 'teal',
+  size = 'md',
   disabled = false,
   children,
   className,

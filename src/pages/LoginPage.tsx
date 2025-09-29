@@ -1,4 +1,4 @@
-import LoginView from "../components/macro/login/LoginView";
+import LoginView from '../components/macro/login/LoginView';
 
 const LoginPage = () => {
   return <LoginView />;

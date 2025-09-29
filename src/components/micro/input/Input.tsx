@@ -1,21 +1,31 @@
-import { Controller, useFormContext, type RegisterOptions } from "react-hook-form";
+import {
+  Controller,
+  useFormContext,
+  type RegisterOptions,
+} from 'react-hook-form';
 import {
   Input as ChakraInput,
   type InputProps as ChakraInputProps,
   Box,
   Text,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-type Size = "sm" | "md" | "lg";
+type Size = 'sm' | 'md' | 'lg';
 
-interface InputProps extends Omit<ChakraInputProps, "size"> {
+interface InputProps extends Omit<ChakraInputProps, 'size'> {
   name: string;
   label?: string;
   inputSize?: Size;
   rules?: RegisterOptions; // ✅ validation rules
 }
 
-export const Input = ({ name, label, inputSize = "md", rules, ...props }: InputProps) => {
+export const Input = ({
+  name,
+  label,
+  inputSize = 'md',
+  rules,
+  ...props
+}: InputProps) => {
   const {
     control,
     formState: { errors },
@@ -48,13 +58,13 @@ export const Input = ({ name, label, inputSize = "md", rules, ...props }: InputP
             id={name}
             size={inputSize}
             aria-invalid={hasError || undefined}
-            _invalid={{ borderColor: "red.500", boxShadow: "0 0 0 1px red" }}
+            _invalid={{ borderColor: 'red.500', boxShadow: '0 0 0 1px red' }}
             {...props}
           />
 
           {hasError && (
             <Text mt={1} fontSize="sm" color="red.500">
-              {String(fieldError.message ?? "This field is required")}
+              {String(fieldError.message ?? 'This field is required')}
             </Text>
           )}
         </Box>

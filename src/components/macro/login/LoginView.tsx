@@ -1,27 +1,30 @@
-import { GoogleAuthProvider, sendSignInLinkToEmail, signInWithPopup } from "firebase/auth";
-import { Button } from "../../micro/button/Button";
-import { actionCodeSettings, auth } from "../../../firebase";
-import * as yup from "yup";
-import { FormProvider, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Input } from "../../micro/input/Input";
+import {
+  GoogleAuthProvider,
+  sendSignInLinkToEmail,
+  signInWithPopup,
+} from 'firebase/auth';
+import { Button } from '../../micro/button/Button';
+import { actionCodeSettings, auth } from '../../../firebase';
+import * as yup from 'yup';
+import { FormProvider, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Input } from '../../micro/input/Input';
 
 const schema = yup.object({
   email: yup
     .string()
-    .required("Email is required")
-    .email("Invalid email format"),
+    .required('Email is required')
+    .email('Invalid email format'),
 });
 
 type LoginFormInputs = yup.InferType<typeof schema>;
 
 function LoginView() {
-
   const methods = useForm<LoginFormInputs>({
     resolver: yupResolver(schema),
-    defaultValues: { email: "" },
-    mode: "onBlur",
-    reValidateMode: "onChange",
+    defaultValues: { email: '' },
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
   });
 
   const {
@@ -32,7 +35,7 @@ function LoginView() {
   const googleProvider = new GoogleAuthProvider();
 
   googleProvider.setCustomParameters({
-    prompt: "select_account"
+    prompt: 'select_account',
   });
 
   const handleGoogleLogin = async () => {
@@ -46,11 +49,11 @@ function LoginView() {
   const handleLogin = async (data: LoginFormInputs) => {
     try {
       await sendSignInLinkToEmail(auth, data.email, actionCodeSettings);
-      window.localStorage.setItem("emailForSignIn", data.email); // save email for later
-      alert("Email link sent! Check your inbox or spam.");
+      window.localStorage.setItem('emailForSignIn', data.email); // save email for later
+      alert('Email link sent! Check your inbox or spam.');
     } catch (err) {
       console.error(err);
-      alert("Login failed");
+      alert('Login failed');
     }
   };
 
@@ -61,14 +64,14 @@ function LoginView() {
         <form onSubmit={handleSubmit(handleLogin)}>
           <Input name="email" type="email" label="email" />
           <Button type="submit">
-            {isSubmitting ? "Sending..." : "Login with Email"}
+            {isSubmitting ? 'Sending...' : 'Login with Email'}
           </Button>
         </form>
       </FormProvider>
       <br />
       <Button onClick={handleGoogleLogin}>Login with Google</Button>
     </>
-  )
+  );
 }
 
-export default LoginView
+export default LoginView;
