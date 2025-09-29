@@ -19,7 +19,7 @@ export default function FinishSignIn() {
       }
 
       if (isSignInWithEmailLink(auth, window.location.href)) {
-        let email = window.localStorage.getItem('emailForSignIn');
+        const email = window.localStorage.getItem('emailForSignIn');
 
         if (!email) {
           // Still no email → redirect back to sign-in
