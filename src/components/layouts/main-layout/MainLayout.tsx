@@ -1,9 +1,10 @@
 import React, { type ReactNode } from 'react';
-import { Box, Flex, VStack, HStack, Text } from '@chakra-ui/react';
+import { Box, Flex, VStack, HStack } from '@chakra-ui/react';
 import { useLocation } from 'react-router-dom';
 import { NavLink } from './NavLink'; // wrapper we made earlier
-import { navItems } from '../../../constants/NavItems';
+import { NAVITEMS } from '../../../constants/navItems';
 import { AvatarButton } from '../../macro/sidebar/AvatarButton';
+import { Text } from '../../micro/Text';
 
 interface LayoutProps {
   children: ReactNode;
@@ -18,7 +19,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
       <Box as="aside" bg="gray.800" color="white" p={4}>
         <Flex direction="column" h="100%">
           <VStack align="stretch" gap={2}>
-            {navItems.map(item => {
+            {NAVITEMS.map(item => {
               const isActive = location.pathname === item.path;
               return (
                 <NavLink

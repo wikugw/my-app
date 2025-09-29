@@ -7,8 +7,8 @@ import {
   Input as ChakraInput,
   type InputProps as ChakraInputProps,
   Box,
-  Text,
 } from '@chakra-ui/react';
+import { Text } from '../Text';
 
 type Size = 'sm' | 'md' | 'lg';
 
@@ -45,7 +45,7 @@ export const Input = ({
             <Text
               as="label"
               mb={1}
-              fontSize="sm"
+              variant="paragraphSmall"
               fontWeight="medium"
               display="block"
             >
@@ -63,7 +63,7 @@ export const Input = ({
           />
 
           {hasError && (
-            <Text mt={1} fontSize="sm" color="red.500">
+            <Text mt={1} variant="paragraphSmall" color="danger">
               {String(fieldError.message ?? 'This field is required')}
             </Text>
           )}

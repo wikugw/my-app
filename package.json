@@ -9,8 +9,6 @@
     "preview": "vite preview",
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check .",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "lint:watch": "eslint . --ext .js,.jsx,.ts,.tsx --watch"

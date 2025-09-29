@@ -1,4 +1,5 @@
-import { Flex, Text, Box, Avatar } from '@chakra-ui/react';
+import { Flex, Box, Avatar } from '@chakra-ui/react';
+import { Text } from './Text';
 
 interface AccountButtonProps {
   name: string;
@@ -18,7 +19,7 @@ export const AvatarPlacholder = ({
           <Avatar.Fallback name={name} />
           <Avatar.Image src={avatarUrl} />
         </Avatar.Root>
-        <Text fontSize="sm">{name}</Text>
+        <Text variant="labelMedium">{name}</Text>
       </Flex>
     </Box>
   );
