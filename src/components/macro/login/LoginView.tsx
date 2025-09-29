@@ -9,6 +9,9 @@ import * as yup from 'yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from '../../micro/input/Input';
+import { Box, VStack, Image } from '@chakra-ui/react';
+import { Text } from '../../micro/Text';
+import GoogleSvg from '../../../assets/google.svg'; 
 
 const schema = yup.object({
   email: yup
@@ -58,19 +61,25 @@ function LoginView() {
   };
 
   return (
-    <>
-      <h2>Login</h2>
+    <Box maxW="md" mx="auto" mt={12} p={6} borderWidth={1} borderRadius="lg" boxShadow="lg">
+      <Text variant='paragraphLarge' bold={true} >Login</Text>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(handleLogin)}>
-          <Input name="email" type="email" label="email" />
-          <Button type="submit">
-            {isSubmitting ? 'Sending...' : 'Login with Email'}
-          </Button>
+          <VStack gap={4} align="stretch" mt={2}>
+            <Input name="email" type="email" label="email" />
+            <Button type="submit" size={"sm"}>
+              {isSubmitting ? 'Sending...' : 'Login with Email'}
+            </Button>
+          </VStack>
         </form>
       </FormProvider>
-      <br />
-      <Button onClick={handleGoogleLogin}>Login with Google</Button>
-    </>
+      <VStack mt={2} align={"stretch"}>
+        <Button size={"sm"} variant='outline' onClick={handleGoogleLogin}>
+          <Image src={GoogleSvg} boxSize="20px" />
+          Login with Google
+        </Button>
+      </VStack>
+    </Box>
   );
 }
 

@@ -19,7 +19,7 @@ export const AvatarPlacholder = ({
           <Avatar.Fallback name={name} />
           <Avatar.Image src={avatarUrl} />
         </Avatar.Root>
-        <Text variant="labelMedium">{name}</Text>
+        <Text color='white' variant="labelMedium">{name}</Text>
       </Flex>
     </Box>
   );
