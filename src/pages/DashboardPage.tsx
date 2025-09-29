@@ -11,10 +11,10 @@ const DashboardPage = () => {
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Welcome {user?.email}</h2>
-      <Button onClick={handleLogout}>Logout</Button>
-    </div>
+      <div>
+        <h2>Welcome {user?.email}</h2>
+        <Button onClick={handleLogout}>Logout</Button>
+      </div>
   );
 };
 

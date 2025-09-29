@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import { ProtectedRoute } from "./components/macro/auth/ProtectedRoute";
 import FinishSignInPage from "./pages/FinishSignInPage";
+import MainLayout from "./components/layouts/main-layout/MainLayout";
 
 function App() {
 
@@ -21,7 +22,9 @@ function App() {
         path="/"
         element={
           <ProtectedRoute>
-            <DashboardPage />
+            <MainLayout>
+              <DashboardPage />
+            </MainLayout>
           </ProtectedRoute>
         }
       />

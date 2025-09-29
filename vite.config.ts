@@ -13,6 +13,7 @@ export default defineConfig({
           @use "sass:color";
           @import "@/styles/base/variables";
           @import "@/styles/base/mixins";
+          @import "@/styles/base/globals";
         `,
         silenceDeprecations: ['import', 'global-builtin', 'color-functions']
       }
