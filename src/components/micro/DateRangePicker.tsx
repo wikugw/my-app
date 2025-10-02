@@ -3,10 +3,11 @@ import {
   useFormContext,
   type RegisterOptions,
 } from 'react-hook-form';
-import { Input as ChakraInput, Box, HStack } from '@chakra-ui/react';
+import { Input as ChakraInput, Box, Stack } from '@chakra-ui/react';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Text } from './Text';
+import '../../styles.css';
 
 type Size = 'sm' | 'md' | 'lg';
 
@@ -60,31 +61,37 @@ export const DateRangeInput = ({
             </Text>
           )}
 
-          <HStack gap={2}>
-            <ReactDatePicker
-              selected={startDate}
-              onChange={date => {
-                setValue(name, [date, endDate], { shouldValidate: true });
-              }}
-              selectsStart
-              startDate={startDate}
-              endDate={endDate}
-              placeholderText={placeholderStart}
-              customInput={<ChakraInput size={inputSize} />}
-            />
-            <ReactDatePicker
-              selected={endDate}
-              onChange={date => {
-                setValue(name, [startDate, date], { shouldValidate: true });
-              }}
-              selectsEnd
-              startDate={startDate}
-              endDate={endDate}
-              minDate={startDate || undefined}
-              placeholderText={placeholderEnd}
-              customInput={<ChakraInput size={inputSize} />}
-            />
-          </HStack>
+          <Stack direction={{ base: 'column', md: 'row' }} gap={2} w="100%">
+            <Box flex="1">
+              <ReactDatePicker
+                selected={startDate}
+                onChange={date => {
+                  setValue(name, [date, endDate], { shouldValidate: true });
+                }}
+                selectsStart
+                startDate={startDate}
+                endDate={endDate}
+                placeholderText={placeholderStart}
+                customInput={<ChakraInput size={inputSize} w="100%" />}
+                wrapperClassName="datepicker-wrapper"
+              />
+            </Box>
+            <Box flex="1">
+              <ReactDatePicker
+                selected={endDate}
+                onChange={date => {
+                  setValue(name, [startDate, date], { shouldValidate: true });
+                }}
+                selectsEnd
+                startDate={startDate}
+                endDate={endDate}
+                minDate={startDate || undefined}
+                placeholderText={placeholderEnd}
+                customInput={<ChakraInput size={inputSize} w="100%" />}
+                wrapperClassName="datepicker-wrapper"
+              />
+            </Box>
+          </Stack>
 
           {hasError && (
             <Text mt={1} variant="paragraphSmall" color="danger">
