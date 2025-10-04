@@ -6,6 +6,9 @@ import * as yup from 'yup';
 import { addDocument } from '../../../helpers/firestoreHelpers';
 import RecruitmentFormFields from './recruitment-form/RecruitmentFormFields';
 import RecruitmentPreview from './RecruitmentPreview';
+import type { RecruitmentPreviewType } from '@/types/modules/Recruitment';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '@/firebase';
 
 const schema = yup.object({
   applicationDates: yup
@@ -40,6 +43,8 @@ const schema = yup.object({
 export type RecrutmentFormInputs = yup.InferType<typeof schema>;
 
 const RecruitmentForm = () => {
+  const [user] = useAuthState(auth);
+
   const methods = useForm<RecrutmentFormInputs>({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -51,11 +56,16 @@ const RecruitmentForm = () => {
 
   const onSubmit = async (data: RecrutmentFormInputs) => {
     try {
-      const payload = {
+      const payload: RecruitmentPreviewType = {
         ...data,
         applicationDates: data.applicationDates?.map(d =>
           d ? new Date(d) : null
         ),
+        createdAt: new Date().toISOString(),
+        createdBy: {
+          email: user?.email ?? "",
+          name: user?.displayName ?? ""
+        }
       };
 
       const docRef = await addDocument('recruitments', payload);
