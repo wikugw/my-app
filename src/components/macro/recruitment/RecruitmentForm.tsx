@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import { addDocument } from '../../../helpers/firestoreHelpers';
 import RecruitmentFormFields from './recruitment-form/RecruitmentFormFields';
 import RecruitmentPreview from './RecruitmentPreview';
-import type { RecruitmentPreviewType } from '@/types/modules/Recruitment';
+import type { RecruitmentFormType } from '@/types/modules/Recruitment';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase';
 import { GenericDialog, type DialogVariant } from '@/components/micro/modal/GenericDialog';
@@ -64,12 +64,11 @@ const RecruitmentForm = () => {
 
   const onSubmit = async (data: RecrutmentFormInputs) => {
     try {
-      const payload: RecruitmentPreviewType = {
+      const payload: RecruitmentFormType = {
         ...data,
         applicationDates: data.applicationDates?.map(d =>
           d ? new Date(d) : null
         ),
-        createdAt: new Date().toISOString(),
         createdBy: {
           email: user?.email ?? "",
           name: user?.displayName ?? ""
