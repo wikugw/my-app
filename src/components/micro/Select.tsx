@@ -47,7 +47,6 @@ export const FormSelect = ({
   const fieldError = errors[name];
   const hasError = !!fieldError;
 
-  // ✅ convert options -> collection for Chakra v3
   const collection = createListCollection({
     items: options.map(opt => ({
       label: opt.label,
@@ -60,57 +59,66 @@ export const FormSelect = ({
       name={name}
       control={control}
       rules={rules}
-      render={({ field }) => (
-        <Box w="100%">
-          {label && (
-            <Text
-              as="label"
-              mb={1}
-              variant="paragraphSmall"
-              fontWeight="medium"
-              display="block"
+      render={({ field }) => {
+        // Convert field value to array format expected by Chakra v3 Select
+        const selectValue = field.value ? [field.value] : [];
+
+        return (
+          <Box w="100%">
+            {label && (
+              <Text
+                as="label"
+                mb={1}
+                variant="paragraphSmall"
+                fontWeight="medium"
+                display="block"
+              >
+                {label}
+              </Text>
+            )}
+
+            <Select.Root
+              value={selectValue}
+              onValueChange={({ value }) => {
+                // Update form field with the selected value
+                field.onChange(value[0] || '');
+              }}
+              collection={collection}
+              size={selectSize}
+              {...props}
             >
-              {label}
-            </Text>
-          )}
+              <Select.HiddenSelect />
+              <Select.Control>
+                <Select.Trigger>
+                  <Select.ValueText placeholder={placeholder} />
+                </Select.Trigger>
+                <Select.IndicatorGroup>
+                  <Select.Indicator />
+                </Select.IndicatorGroup>
+              </Select.Control>
 
-          <Select.Root
-            {...field}
-            collection={collection} // ✅ pass collection to Root
-            size={selectSize}
-            {...props}
-          >
-            <Select.HiddenSelect />
-            <Select.Control>
-              <Select.Trigger>
-                <Select.ValueText placeholder={placeholder} />
-              </Select.Trigger>
-              <Select.IndicatorGroup>
-                <Select.Indicator />
-              </Select.IndicatorGroup>
-            </Select.Control>
+              <Portal>
+                <Select.Positioner>
+                  <Select.Content>
+                    {collection.items.map(item => (
+                      <Select.Item key={item.value} item={item}>
+                        {item.label}
+                        <Select.ItemIndicator />
+                      </Select.Item>
+                    ))}
+                  </Select.Content>
+                </Select.Positioner>
+              </Portal>
+            </Select.Root>
 
-            <Portal>
-              <Select.Positioner>
-                <Select.Content>
-                  {collection.items.map(item => (
-                    <Select.Item key={item.value} item={item}>
-                      {item.label}
-                      <Select.ItemIndicator />
-                    </Select.Item>
-                  ))}
-                </Select.Content>
-              </Select.Positioner>
-            </Portal>
-          </Select.Root>
-
-          {hasError && (
-            <Text mt={1} variant="paragraphSmall" color="danger">
-              {String(fieldError.message ?? 'This field is required')}
-            </Text>
-          )}
-        </Box>
-      )}
+            {hasError && (
+              <Text mt={1} variant="paragraphSmall" color="danger">
+                {String(fieldError.message ?? 'This field is required')}
+              </Text>
+            )}
+          </Box>
+        )}
+      }
     />
   );
 };

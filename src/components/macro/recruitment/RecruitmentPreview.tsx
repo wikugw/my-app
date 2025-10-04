@@ -1,7 +1,10 @@
 // RecruitmentPreview.tsx
-import { Box, Stack, Text } from '@chakra-ui/react';
+import { Box, Stack } from '@chakra-ui/react';
+import { Text } from '@/components/micro/Text';
 
 import type { RecrutmentFormInputs } from './RecruitmentForm';
+import { SimpleDate } from '@/helpers/dateFormat';
+import { formatIDR } from '@/helpers/textFormat';
 
 const RecruitmentPreview = ({
   values,
@@ -16,15 +19,19 @@ const RecruitmentPreview = ({
         Preview Data
       </Text>
       <Stack gap={2}>
-        <Text>Position: {values.position}</Text>
-        <Text>Salary: {values.salary}</Text>
-        <Text>Type: {values.employementType}</Text>
-        <Text>Dates: {values.applicationDates?.join(' → ')}</Text>
+        <Text>Posisi: {values.position}</Text>
+        <Text>Gaji: {formatIDR(values.salary ?? 0)}</Text>
+        <Text>Jenis: {values.employementType}</Text>
+        <Text>
+          Jangka waktu: {values.applicationDates
+          ?.map((d) => SimpleDate(d ?? ""))
+          .join(" → ")} 
+        </Text>
         <Box>
           <Text>Requirements:</Text>
           <ul>
             {values.requirements?.map((req, i) => (
-              <li key={i}>{req}</li>
+              <Text key={i}>{req}</Text>
             ))}
           </ul>
         </Box>

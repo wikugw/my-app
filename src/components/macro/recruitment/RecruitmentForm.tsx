@@ -43,21 +43,11 @@ const RecruitmentForm = () => {
   const methods = useForm<RecrutmentFormInputs>({
     resolver: yupResolver(schema),
     defaultValues: {
-      requirements: JSON.parse('["5 tahun pengalaman"]'),
-      employementType: 'fulltime',
-      salary: 10000000,
-      position: 'frontendDeveloper',
-      applicationDates: JSON.parse(
-        '["2025-10-03T17:00:00.000Z","2025-10-10T17:00:00.000Z"]'
-      ),
+      requirements: [""],
     },
     mode: 'onBlur',
     reValidateMode: 'onChange',
   });
-
-  // const {
-  //   formState:  {},
-  // } = methods;
 
   const onSubmit = async (data: RecrutmentFormInputs) => {
     try {

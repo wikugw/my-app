@@ -9,6 +9,8 @@ import { Input } from '../../../micro/input/Input';
 import { JobPositionSelect } from '../../form-select/JobPositionSelect';
 import type { RecrutmentFormInputs } from '../RecruitmentForm';
 
+import { Text } from '@/components/micro/Text';
+
 type Props = {
   onSubmit: (data: RecrutmentFormInputs) => void;
 };
