@@ -9,7 +9,7 @@ import { COLORS } from '../../../constants/colors';
 
 type ColorKey = keyof typeof COLORS;
 
-interface ButtonProps
+export interface ButtonProps
   extends Omit<ChakraButtonProps, 'children' | 'colorScheme'> {
   children: ReactNode;
   className?: string;

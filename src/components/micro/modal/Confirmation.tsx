@@ -1,5 +1,6 @@
-import { Button, CloseButton, Dialog, Portal } from '@chakra-ui/react';
+import { CloseButton, Dialog, Portal } from '@chakra-ui/react';
 import type { ReactNode } from 'react';
+import { Button } from '../button/Button';
 
 interface ConfirmDialogProps {
   isOpen: boolean;

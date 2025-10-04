@@ -9,6 +9,9 @@ import RecruitmentPreview from './RecruitmentPreview';
 import type { RecruitmentPreviewType } from '@/types/modules/Recruitment';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase';
+import { GenericDialog, type DialogVariant } from '@/components/micro/modal/GenericDialog';
+import { useState } from 'react';
+import { useNav } from '@/hooks/useNav';
 
 const schema = yup.object({
   applicationDates: yup
@@ -44,6 +47,11 @@ export type RecrutmentFormInputs = yup.InferType<typeof schema>;
 
 const RecruitmentForm = () => {
   const [user] = useAuthState(auth);
+  const { back } = useNav();
+
+  const [isFeebackDialogOpen, setIsFeebackDialogOpen] = useState(false);
+  const [feedbackType, setFeedbackType] = useState("success");
+  const [feedbackMsg, setFeedbackMsg] = useState("Data Saved");
 
   const methods = useForm<RecrutmentFormInputs>({
     resolver: yupResolver(schema),
@@ -70,10 +78,21 @@ const RecruitmentForm = () => {
 
       const docRef = await addDocument('recruitments', payload);
       console.log('Document written with ID: ', docRef.id);
+      setFeedbackType("success")
+      setFeedbackMsg("Data Saved")
+      setIsFeebackDialogOpen(true)
     } catch (e) {
+      setFeedbackType("failure")
+      setFeedbackMsg(JSON.stringify(e))
+      setIsFeebackDialogOpen(true)
       console.error('Error adding document: ', e);
     }
   };
+
+  const confirmSuccess = () => {
+    setIsFeebackDialogOpen(false)
+    back()
+  }
 
   return (
     <Flex w="100%" gap={4}>
@@ -87,6 +106,14 @@ const RecruitmentForm = () => {
         {/* i need inputted data from form to be displayed here */}
         <RecruitmentPreview values={useWatch({ control: methods.control })} />
       </Box>
+
+      <GenericDialog
+        isOpen={isFeebackDialogOpen}
+        onOpenChange={() => setIsFeebackDialogOpen(false)}
+        onConfirm={confirmSuccess}
+        variant={feedbackType as DialogVariant}
+        body={feedbackMsg}
+      />
     </Flex>
   );
 };

@@ -1,8 +1,8 @@
 import { type ButtonProps } from '@chakra-ui/react';
 import type { ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { Button } from './Button';
+import { useNav } from '@/hooks/useNav';
 
 interface NavButtonProps extends ButtonProps {
   to: string;
@@ -16,10 +16,10 @@ export const NavButton = ({
   replace = false,
   ...props
 }: NavButtonProps) => {
-  const navigate = useNavigate();
+  const { go } = useNav();
 
   const handleClick = () => {
-    navigate(to, { replace });
+    go(to);
   };
 
   return (
