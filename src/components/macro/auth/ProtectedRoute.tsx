@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { Navigate } from 'react-router-dom';
+
 import { auth } from '../../../firebase';
 
 interface ProtectedRouteProps {

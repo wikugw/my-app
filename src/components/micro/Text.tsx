@@ -1,6 +1,7 @@
 // components/micro/Text.tsx
 import { Text as ChakraText, type TextProps } from '@chakra-ui/react';
 import React from 'react';
+
 import { COLORS } from '../../constants/colors';
 
 type TextVariant =

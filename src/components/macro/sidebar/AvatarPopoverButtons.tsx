@@ -1,9 +1,10 @@
-import { auth } from '../../../firebase';
 import { Popover, Portal } from '@chakra-ui/react';
-import { Button } from '../../micro/button/Button';
 import { signOut } from 'firebase/auth';
-import { ConfirmDialog } from '../../micro/modal/Confirmation';
 import { useState } from 'react';
+
+import { auth } from '../../../firebase';
+import { Button } from '../../micro/button/Button';
+import { ConfirmDialog } from '../../micro/modal/Confirmation';
 
 export const AvatarPopoverButtons = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);

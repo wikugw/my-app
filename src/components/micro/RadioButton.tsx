@@ -1,14 +1,15 @@
 import {
-  Controller,
-  useFormContext,
-  type RegisterOptions,
-} from 'react-hook-form';
-import {
-  RadioGroup,
-  type RadioGroupRootProps,
   Box,
   HStack,
+  RadioGroup,
+  type RadioGroupRootProps,
 } from '@chakra-ui/react';
+import {
+  Controller,
+  type RegisterOptions,
+  useFormContext,
+} from 'react-hook-form';
+
 import { Text } from './Text';
 
 type Size = 'sm' | 'md' | 'lg';

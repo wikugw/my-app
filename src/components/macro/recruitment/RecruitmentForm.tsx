@@ -1,12 +1,11 @@
-import { Box, Flex, Stack } from '@chakra-ui/react';
-import { DateRangeInput } from '../../micro/DateRangePicker';
-import * as yup from 'yup';
-import { FormProvider, useForm } from 'react-hook-form';
+import { Box, Flex } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { JobPositionSelect } from '../form-select/JobPositionSelect';
-import { Input } from '../../micro/input/Input';
-import { EmployementTypeRadioButton } from '../../form-radio-button/EmployementTypeRadioButton';
-import { Button } from '../../micro/button/Button';
+import { FormProvider, useForm, useWatch } from 'react-hook-form';
+import * as yup from 'yup';
+
+import { addDocument } from '../../../helpers/firestoreHelpers';
+import RecruitmentFormFields from './recruitment-form/RecruitmentFormFields';
+import RecruitmentPreview from './RecruitmentPreview';
 
 const schema = yup.object({
   applicationDates: yup
@@ -38,95 +37,56 @@ const schema = yup.object({
     .required('Skills are required'),
 });
 
-type RecrutmentFormInputs = yup.InferType<typeof schema>;
+export type RecrutmentFormInputs = yup.InferType<typeof schema>;
 
 const RecruitmentForm = () => {
   const methods = useForm<RecrutmentFormInputs>({
     resolver: yupResolver(schema),
     defaultValues: {
-      applicationDates: [],
-      requirements: [''],
+      requirements: JSON.parse('["5 tahun pengalaman"]'),
+      employementType: 'fulltime',
+      salary: 10000000,
+      position: 'frontendDeveloper',
+      applicationDates: JSON.parse(
+        '["2025-10-03T17:00:00.000Z","2025-10-10T17:00:00.000Z"]'
+      ),
     },
     mode: 'onBlur',
     reValidateMode: 'onChange',
   });
 
-  const {
-    handleSubmit,
-    getValues,
-    setValue,
-    formState: { isSubmitting },
-  } = methods;
+  // const {
+  //   formState:  {},
+  // } = methods;
 
-  const onSubmit = () => {
-    console.log();
-  };
+  const onSubmit = async (data: RecrutmentFormInputs) => {
+    try {
+      const payload = {
+        ...data,
+        applicationDates: data.applicationDates?.map(d =>
+          d ? new Date(d) : null
+        ),
+      };
 
-  const addRequirement = () => {
-    const current = getValues('requirements');
-    const updated = [...current, ''];
-    setValue('requirements', updated, { shouldValidate: true });
-  };
-
-  const removeRequirement = (index: number) => {
-    const current = getValues('requirements') || [];
-    const updated = current.filter((_, i) => i !== index);
-    setValue('requirements', updated, { shouldValidate: true });
+      const docRef = await addDocument('recruitments', payload);
+      console.log('Document written with ID: ', docRef.id);
+    } catch (e) {
+      console.error('Error adding document: ', e);
+    }
   };
 
   return (
     <Flex w="100%" gap={4}>
       <Box flex="1">
+        {/* i want to move this elements to other components */}
         <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack gap={4}>
-              <DateRangeInput
-                name="applicationDates"
-                label="Jangka Waktu Rekrutmen"
-                inputSize="md"
-              />
-
-              <JobPositionSelect name="position" label="Posisi" />
-
-              <Input name="salary" type="number" label="Gaji" />
-
-              <EmployementTypeRadioButton
-                name="employementType"
-                label="Tipe Rekrutmen"
-              />
-
-              <Stack gap={2}>
-                {getValues('requirements').map((_, index) => (
-                  <Box key={index} display="flex" gap={2}>
-                    <Input name={`requirements.${index}`} />
-                    <Button
-                      colorKey="danger"
-                      size="sm"
-                      onClick={() => removeRequirement(index)}
-                    >
-                      Remove
-                    </Button>
-                  </Box>
-                ))}
-              </Stack>
-
-              <Button
-                mt={2}
-                size="sm"
-                variantKey={'outline'}
-                onClick={() => addRequirement()}
-              >
-                Add Requirement
-              </Button>
-
-              <Button type="submit" size={'sm'}>
-                {isSubmitting ? 'Submitting...' : 'Submit'}
-              </Button>
-            </Stack>
-          </form>
+          <RecruitmentFormFields onSubmit={onSubmit} />
         </FormProvider>
       </Box>
-      <Box flex="1">box 2</Box>
+      <Box flex="1">
+        {/* i need inputted data from form to be displayed here */}
+        <RecruitmentPreview values={useWatch({ control: methods.control })} />
+      </Box>
     </Flex>
   );
 };

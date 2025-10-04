@@ -1,4 +1,5 @@
 import { Box } from '@chakra-ui/react';
+
 import { NavButton } from '../../micro/button/NavButton';
 
 const RecruitmentView = () => {

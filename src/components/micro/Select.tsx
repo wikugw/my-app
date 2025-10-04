@@ -1,15 +1,16 @@
 import {
-  Controller,
-  useFormContext,
-  type RegisterOptions,
-} from 'react-hook-form';
-import {
-  Select,
-  Portal,
-  type SelectRootProps,
   createListCollection,
+  Portal,
+  Select,
+  type SelectRootProps,
 } from '@chakra-ui/react';
 import { Box } from '@chakra-ui/react';
+import {
+  Controller,
+  type RegisterOptions,
+  useFormContext,
+} from 'react-hook-form';
+
 import { Text } from './Text';
 
 type Size = 'sm' | 'md' | 'lg';

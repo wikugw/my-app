@@ -1,13 +1,14 @@
 import {
-  Controller,
-  useFormContext,
-  type RegisterOptions,
-} from 'react-hook-form';
-import {
+  Box,
   Input as ChakraInput,
   type InputProps as ChakraInputProps,
-  Box,
 } from '@chakra-ui/react';
+import {
+  Controller,
+  type RegisterOptions,
+  useFormContext,
+} from 'react-hook-form';
+
 import { Text } from '../Text';
 
 type Size = 'sm' | 'md' | 'lg';
@@ -37,6 +38,7 @@ export const Input = ({
   return (
     <Controller
       name={name}
+      defaultValue=""
       control={control}
       rules={rules}
       render={({ field }) => (

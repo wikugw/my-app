@@ -1,13 +1,15 @@
+import 'react-datepicker/dist/react-datepicker.css';
+import '../../styles.css';
+
+import { Box, Input as ChakraInput, Stack } from '@chakra-ui/react';
+import ReactDatePicker from 'react-datepicker';
 import {
   Controller,
-  useFormContext,
   type RegisterOptions,
+  useFormContext,
 } from 'react-hook-form';
-import { Input as ChakraInput, Box, Stack } from '@chakra-ui/react';
-import ReactDatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+
 import { Text } from './Text';
-import '../../styles.css';
 
 type Size = 'sm' | 'md' | 'lg';
 

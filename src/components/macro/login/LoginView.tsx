@@ -1,17 +1,18 @@
+import { Box, Image, VStack } from '@chakra-ui/react';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   GoogleAuthProvider,
   sendSignInLinkToEmail,
   signInWithPopup,
 } from 'firebase/auth';
-import { Button } from '../../micro/button/Button';
-import { actionCodeSettings, auth } from '../../../firebase';
-import * as yup from 'yup';
 import { FormProvider, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Input } from '../../micro/input/Input';
-import { Box, VStack, Image } from '@chakra-ui/react';
-import { Text } from '../../micro/Text';
+import * as yup from 'yup';
+
 import GoogleSvg from '../../../assets/google.svg';
+import { actionCodeSettings, auth } from '../../../firebase';
+import { Button } from '../../micro/button/Button';
+import { Input } from '../../micro/input/Input';
+import { Text } from '../../micro/Text';
 
 const schema = yup.object({
   email: yup

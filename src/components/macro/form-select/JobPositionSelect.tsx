@@ -1,16 +1,16 @@
 import { FormSelect, type FormSelectProps } from '../../micro/Select';
 
 const jobPositions = [
-  { label: 'Frontend Developer', value: 'frontendDeveloper' },
-  { label: 'Backend Developer', value: 'backendDeveloper' },
-  { label: 'Full Stack Developer', value: 'fullstackDeveloper' },
-  { label: 'Mobile Developer', value: 'mobileDeveloper' },
-  { label: 'DevOps Engineer', value: 'devopsEngineer' },
-  { label: 'Data Scientist', value: 'dataScientist' },
-  { label: 'Machine Learning Engineer', value: 'machineLearningEngineer' },
-  { label: 'UI/UX Designer', value: 'uiUxDesigner' },
-  { label: 'QA Engineer', value: 'qaEngineer' },
-  { label: 'Product Manager', value: 'productManager' },
+  { label: 'Frontend Developer', value: 'Frontend Developer' },
+  { label: 'Backend Developer', value: 'Backend Developer' },
+  { label: 'Full Stack Developer', value: 'Full Stack Developer' },
+  { label: 'Mobile Developer', value: 'Mobile Developer' },
+  { label: 'DevOps Engineer', value: 'DevOps Engineer' },
+  { label: 'Data Scientist', value: 'Data Scientist' },
+  { label: 'Machine Learning Engineer', value: 'Machine Learning Engineer' },
+  { label: 'UI/UX Designer', value: 'UI/UX Designer' },
+  { label: 'QA Engineer', value: 'QA Engineer' },
+  { label: 'Product Manager', value: 'Product Manager' },
 ];
 
 type JobPositionSelectProps = Omit<FormSelectProps, 'options'>;

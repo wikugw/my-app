@@ -1,10 +1,11 @@
+import { Box, Flex, HStack, VStack } from '@chakra-ui/react';
 import React, { type ReactNode } from 'react';
-import { Box, Flex, VStack, HStack } from '@chakra-ui/react';
 import { useLocation } from 'react-router-dom';
-import { NavLink } from './NavLink'; // wrapper we made earlier
+
 import { NAVITEMS } from '../../../constants/navItems';
 import { AvatarButton } from '../../macro/sidebar/AvatarButton';
 import { Text } from '../../micro/Text';
+import { NavLink } from './NavLink'; // wrapper we made earlier
 
 interface LayoutProps {
   children: ReactNode;

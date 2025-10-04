@@ -1,6 +1,7 @@
 import { type ButtonProps } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 import type { ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { Button } from './Button';
 
 interface NavButtonProps extends ButtonProps {

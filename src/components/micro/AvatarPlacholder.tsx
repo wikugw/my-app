@@ -1,4 +1,5 @@
-import { Flex, Box, Avatar } from '@chakra-ui/react';
+import { Avatar, Box, Flex } from '@chakra-ui/react';
+
 import { Text } from './Text';
 
 interface AccountButtonProps {

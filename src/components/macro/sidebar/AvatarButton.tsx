@@ -1,8 +1,9 @@
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { AvatarPlacholder } from '../../micro/AvatarPlacholder';
-import { auth } from '../../../firebase';
-import { useMemo } from 'react';
 import { Popover } from '@chakra-ui/react';
+import { useMemo } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+
+import { auth } from '../../../firebase';
+import { AvatarPlacholder } from '../../micro/AvatarPlacholder';
 import { Button } from '../../micro/button/Button';
 import { AvatarPopoverButtons } from './AvatarPopoverButtons';
 

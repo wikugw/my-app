@@ -1,13 +1,14 @@
-import { auth } from './firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import DashboardPage from './pages/DashboardPage';
-import { ProtectedRoute } from './components/macro/auth/ProtectedRoute';
-import FinishSignInPage from './pages/FinishSignInPage';
+
 import MainLayout from './components/layouts/main-layout/MainLayout';
-import RecruitmentPage from './pages/RecruitmentPage';
+import { ProtectedRoute } from './components/macro/auth/ProtectedRoute';
+import { auth } from './firebase';
+import DashboardPage from './pages/DashboardPage';
+import FinishSignInPage from './pages/FinishSignInPage';
+import LoginPage from './pages/LoginPage';
 import RecruitmentFormPage from './pages/RecruitmentFormPage';
+import RecruitmentPage from './pages/RecruitmentPage';
 
 function App() {
   const [user] = useAuthState(auth);

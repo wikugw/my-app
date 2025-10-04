@@ -4,6 +4,7 @@ import {
   type ButtonProps as ChakraButtonProps,
 } from '@chakra-ui/react';
 import type { ReactNode } from 'react';
+
 import { COLORS } from '../../../constants/colors';
 
 type ColorKey = keyof typeof COLORS;
