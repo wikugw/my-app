@@ -1,4 +1,10 @@
-import { addDoc, collection, doc, updateDoc, type DocumentData } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  updateDoc,
+  type DocumentData,
+} from 'firebase/firestore';
 
 import { db } from '../firebase';
 
@@ -19,7 +25,11 @@ export const addDocument = async <T extends DocumentData>(
   return docRef;
 };
 
-export const updateDocument = async (collectionName: string, id: string, data: any) => {
+export const updateDocument = async <T extends DocumentData>(
+  collectionName: string,
+  id: string,
+  data: T
+) => {
   const docRef = doc(db, collectionName, id);
   await updateDoc(docRef, data);
   return docRef;

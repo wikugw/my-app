@@ -2,9 +2,9 @@
 import { Box, Stack } from '@chakra-ui/react';
 import { Text } from '@/components/micro/Text';
 
-import type { RecrutmentFormInputs } from './RecruitmentForm';
 import { SimpleDate } from '@/helpers/dateFormat';
 import { formatIDR } from '@/helpers/textFormat';
+import type { RecrutmentFormInputs } from '@/validations/modules/recruitment-form';
 
 const RecruitmentPreview = ({
   values,

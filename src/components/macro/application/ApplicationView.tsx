@@ -1,12 +1,12 @@
 import { Box } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import { NavButton } from '../../micro/button/NavButton';
 import { fetchRecruitments } from '@/api-client/firebase/recruitment';
 import { FullScreenSpinner } from '@/components/micro/FullScreenSpinner';
 import { NoDataContainer } from '@/components/micro/NoDataContainer';
-import { RecruitmentViewGrid } from './recruitment-view/Grid';
+import { RecruitmentViewGrid } from '../recruitment/recruitment-view/Grid';
+import { Text } from '@/components/micro/Text';
 
-const RecruitmentView = () => {
+const ApplicationView = () => {
   const {
     data: recruitments,
     isLoading,
@@ -26,16 +26,13 @@ const RecruitmentView = () => {
 
   return (
     <Box>
-      <NavButton to="/recruitment/create" mb={4}>
-        Create
-      </NavButton>
-
+      <Text mb={4}>Lowongan yang tersedia</Text>
       <RecruitmentViewGrid
         recruitments={recruitments ?? []}
-        detailPath="/recruitment/detail/"
+        detailPath="/application/detail/"
       />
     </Box>
   );
 };
 
-export default RecruitmentView;
+export default ApplicationView;

@@ -1,4 +1,4 @@
-import RecruitmentView from '../components/macro/recruitment/RecruitmentView';
+import RecruitmentView from '../../components/macro/recruitment/RecruitmentView';
 
 const RecruitmentPage = () => {
   return <RecruitmentView />;

@@ -85,7 +85,7 @@ function LoginView() {
         </form>
       </FormProvider>
       <VStack mt={2} align={'stretch'}>
-        <Button size={'sm'} variant="outline" onClick={handleGoogleLogin}>
+        <Button size={'sm'} variantKey="outline" onClick={handleGoogleLogin}>
           <Image src={GoogleSvg} boxSize="20px" />
           Login with Google
         </Button>

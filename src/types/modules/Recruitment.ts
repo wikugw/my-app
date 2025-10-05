@@ -1,15 +1,14 @@
 import type { RecrutmentFormInputs } from '@/validations/modules/recruitment-form';
 import type { User } from '../User';
-import { Timestamp } from 'firebase/firestore';
 
 export type RecruitmentPreviewType = Omit<
   RecrutmentFormInputs,
   'applicationDates'
 > & {
   id?: string;
-  createdAt: Timestamp;
+  createdAt: Date;
   createdBy: User;
-  applicationDates?: Timestamp[]; // Firestore representation
+  applicationDates: Date[]; // Firestore representation
 };
 
 export type RecruitmentFormType = RecrutmentFormInputs & {

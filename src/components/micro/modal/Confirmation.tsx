@@ -31,7 +31,7 @@ export const ConfirmDialog = ({
             </Dialog.Body>
             <Dialog.Footer>
               <Dialog.ActionTrigger asChild>
-                <Button onClick={onOpenChange} variant="outline">
+                <Button onClick={onOpenChange} variantKey="outline">
                   Cancel
                 </Button>
               </Dialog.ActionTrigger>

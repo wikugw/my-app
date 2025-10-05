@@ -40,7 +40,6 @@ export function useRecruitmentForm(id?: string) {
     if (data) {
       methods.reset({
         ...data,
-        applicationDates: data.applicationDates?.map(d => d.toDate?.() ?? d),
       });
     }
   }, [data, methods]);
@@ -90,4 +89,3 @@ export function useRecruitmentForm(id?: string) {
     feedbackMsg,
   };
 }
-

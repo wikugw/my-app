@@ -7,8 +7,11 @@ import { auth } from './firebase';
 import DashboardPage from './pages/DashboardPage';
 import FinishSignInPage from './pages/FinishSignInPage';
 import LoginPage from './pages/LoginPage';
-import RecruitmentFormPage from './pages/RecruitmentFormPage';
-import RecruitmentPage from './pages/RecruitmentPage';
+import RecruitmentFormPage from './pages/recruitments/RecruitmentFormPage';
+import RecruitmentPage from './pages/recruitments/RecruitmentPage';
+import ApplicationPage from './pages/applications/ApplicationPage';
+import { ContainerLayout } from './components/layouts/ContainerLayout';
+import ApplicationPreviewPage from './pages/applications/ApplicationPreviewPage';
 
 function App() {
   const [user] = useAuthState(auth);
@@ -20,6 +23,19 @@ function App() {
         element={user ? <Navigate to="/" replace /> : <LoginPage />}
       />
       <Route path="/finishSignIn" element={<FinishSignInPage />} />
+      <Route
+        element={
+          <ContainerLayout>
+            <Outlet />
+          </ContainerLayout>
+        }
+      >
+        <Route path="/application" element={<ApplicationPage />} />
+        <Route
+          path="/application/detail"
+          element={<ApplicationPreviewPage />}
+        />
+      </Route>
       <Route
         element={
           <ProtectedRoute>
