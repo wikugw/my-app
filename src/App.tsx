@@ -32,6 +32,7 @@ function App() {
         <Route path="/" element={<DashboardPage />} />
         <Route path="/recruitment" element={<RecruitmentPage />} />
         <Route path="/recruitment/create" element={<RecruitmentFormPage />} />
+        <Route path="/recruitment/detail" element={<RecruitmentFormPage />} />
       </Route>
       {/* catch-all redirect */}
       <Route path="*" element={<Navigate to="/" />} />

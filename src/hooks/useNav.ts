@@ -1,11 +1,11 @@
 // useNav.ts
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, type NavigateOptions } from 'react-router-dom';
 
 export function useNav() {
   const navigate = useNavigate();
 
   return {
-    go: (to: string, replace = false) => navigate(to, { replace }),
+    go: (to: string, options?: NavigateOptions) => navigate(to, options),
     back: () => navigate(-1),
     home: () => navigate('/'),
   };

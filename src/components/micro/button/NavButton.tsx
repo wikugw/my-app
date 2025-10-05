@@ -3,23 +3,24 @@ import type { ReactNode } from 'react';
 
 import { Button } from './Button';
 import { useNav } from '@/hooks/useNav';
+import type { NavigateOptions } from 'react-router-dom';
 
 interface NavButtonProps extends ButtonProps {
   to: string;
   children: ReactNode;
-  replace?: boolean; // optional, default false
+  options?: NavigateOptions;
 }
 
 export const NavButton = ({
   to,
   children,
-  replace = false,
+  options,
   ...props
 }: NavButtonProps) => {
   const { go } = useNav();
 
   const handleClick = () => {
-    go(to);
+    go(to, options);
   };
 
   return (

@@ -1,4 +1,4 @@
-import { addDoc, collection, type DocumentData } from 'firebase/firestore';
+import { addDoc, collection, doc, updateDoc, type DocumentData } from 'firebase/firestore';
 
 import { db } from '../firebase';
 
@@ -16,5 +16,11 @@ export const addDocument = async <T extends DocumentData>(
     ...data,
     createdAt: new Date(),
   });
+  return docRef;
+};
+
+export const updateDocument = async (collectionName: string, id: string, data: any) => {
+  const docRef = doc(db, collectionName, id);
+  await updateDoc(docRef, data);
   return docRef;
 };

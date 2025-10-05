@@ -1,32 +1,29 @@
-import { Box, Flex, SimpleGrid, Spinner } from '@chakra-ui/react';
+import { Box, SimpleGrid } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { NavButton } from '../../micro/button/NavButton';
 import { fetchRecruitments } from '@/api-client/firebase/recruitment';
 import { Text } from '@/components/micro/Text';
-import { Button } from '@/components/micro/button/Button';
 import { formatIDR } from '@/helpers/textFormat';
 import { SimpleDate } from '@/helpers/dateFormat';
+import { FullScreenSpinner } from '@/components/micro/FullScreenSpinner';
+import { NoDataContainer } from '@/components/micro/NoDataContainer';
 
 const RecruitmentView = () => {
-  const { data: recruitments, isLoading, error } = useQuery({
+  const {
+    data: recruitments,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ['recruitments'],
     queryFn: fetchRecruitments,
   });
 
   if (isLoading) {
-    return (
-      <Flex justify="center" align="center" h="100%">
-        <Spinner />
-      </Flex>
-    );
+    return <FullScreenSpinner />;
   }
 
   if (error) {
-    return (
-      <Flex justify="center" align="center" h="100%">
-        <Text color="danger">Failed to load recruitments</Text>
-      </Flex>
-    );
+    return <NoDataContainer text="Failed to load recruitments" />;
   }
 
   return (
@@ -54,9 +51,14 @@ const RecruitmentView = () => {
                 Created by {r.createdBy?.name ?? 'Unknown'} on{' '}
                 {r.createdAt && SimpleDate(r.createdAt.toDate())}
               </Text>
-              <Button size="sm" mt={2}>
+              <NavButton
+                to="/recruitment/detail"
+                options={{ state: { id: r.id } }}
+                size="sm"
+                mt={2}
+              >
                 View Details
-              </Button>
+              </NavButton>
             </Box>
           ))}
         </SimpleGrid>

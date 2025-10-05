@@ -117,8 +117,8 @@ export const FormSelect = ({
               </Text>
             )}
           </Box>
-        )}
-      }
+        );
+      }}
     />
   );
 };

@@ -1,10 +1,4 @@
-import {
-  CloseButton,
-  Dialog,
-  Portal,
-  Icon,
-  Flex,
-} from '@chakra-ui/react';
+import { CloseButton, Dialog, Portal, Icon, Flex } from '@chakra-ui/react';
 import {
   AiOutlineCheckCircle,
   AiOutlineCloseCircle,
@@ -13,6 +7,7 @@ import {
 import { useMemo, type ReactNode } from 'react';
 import { Button, type ButtonProps } from '../button/Button';
 import { Text } from '../Text';
+import type { IconType } from 'react-icons/lib';
 
 export type DialogVariant = 'success' | 'failure' | 'warning';
 
@@ -27,7 +22,14 @@ interface GenericDialogProps {
 
 const variantConfig: Record<
   DialogVariant,
-  { bg: string; border: string; color: ButtonProps["colorKey"]; icon: any; button: ButtonProps["colorKey"], iconColor: string }
+  {
+    bg: string;
+    border: string;
+    color: ButtonProps['colorKey'];
+    icon: IconType;
+    button: ButtonProps['colorKey'];
+    iconColor: string;
+  }
 > = {
   success: {
     bg: 'green.50',
@@ -35,7 +37,7 @@ const variantConfig: Record<
     color: 'success',
     icon: AiOutlineCheckCircle,
     button: 'success',
-    iconColor: "green.500",
+    iconColor: 'green.500',
   },
   failure: {
     bg: 'red.50',
@@ -43,7 +45,7 @@ const variantConfig: Record<
     color: 'danger',
     icon: AiOutlineCloseCircle,
     button: 'danger',
-    iconColor: "red.500",
+    iconColor: 'red.500',
   },
   warning: {
     bg: 'yellow.50',
@@ -51,7 +53,7 @@ const variantConfig: Record<
     color: 'warning',
     icon: AiOutlineWarning,
     button: 'warning',
-    iconColor: "yellow.500",
+    iconColor: 'yellow.500',
   },
 };
 
@@ -86,11 +88,7 @@ export const GenericDialog = ({
             </Flex>
 
             <Dialog.Footer justifyContent="center" mt={2}>
-              <Button
-                colorKey={config.button}
-                onClick={onConfirm}
-                width="full"
-              >
+              <Button colorKey={config.button} onClick={onConfirm} width="full">
                 {confirmText}
               </Button>
             </Dialog.Footer>

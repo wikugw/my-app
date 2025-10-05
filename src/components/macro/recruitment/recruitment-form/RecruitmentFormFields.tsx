@@ -7,9 +7,7 @@ import { EmployementTypeRadioButton } from '../../../form-radio-button/Employeme
 import { Button } from '../../../micro/button/Button';
 import { Input } from '../../../micro/input/Input';
 import { JobPositionSelect } from '../../form-select/JobPositionSelect';
-import type { RecrutmentFormInputs } from '../RecruitmentForm';
-
-import { Text } from '@/components/micro/Text';
+import type { RecrutmentFormInputs } from '@/validations/modules/recruitment-form';
 
 type Props = {
   onSubmit: (data: RecrutmentFormInputs) => void;

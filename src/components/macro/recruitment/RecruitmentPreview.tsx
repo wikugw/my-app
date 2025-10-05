@@ -23,9 +23,8 @@ const RecruitmentPreview = ({
         <Text>Gaji: {formatIDR(values.salary ?? 0)}</Text>
         <Text>Jenis: {values.employementType}</Text>
         <Text>
-          Jangka waktu: {values.applicationDates
-          ?.map((d) => SimpleDate(d ?? ""))
-          .join(" → ")} 
+          Jangka waktu:{' '}
+          {values.applicationDates?.map(d => SimpleDate(d ?? '')).join(' → ')}
         </Text>
         <Box>
           <Text>Requirements:</Text>
