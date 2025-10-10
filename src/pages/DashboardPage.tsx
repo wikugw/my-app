@@ -1,7 +1,7 @@
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 const DashboardPage = () => {
-  const {user} = useCurrentUser()
+  const { user } = useCurrentUser();
 
   return (
     <div>

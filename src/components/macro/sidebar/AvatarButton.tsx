@@ -6,7 +6,7 @@ import { AvatarPopoverButtons } from './AvatarPopoverButtons';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 export const AvatarButton = () => {
-  const {user} = useCurrentUser()
+  const { user } = useCurrentUser();
 
   const displayName = useMemo(
     () => user?.displayName ?? '',

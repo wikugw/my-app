@@ -24,7 +24,7 @@ export function useApplicationPreview() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const dispatch = useDispatch();
   const { back } = useNav();
-  const {user} = useCurrentUser()
+  const { user } = useCurrentUser();
 
   // 🧭 Retrieve recruitment ID from router state
   const location = useLocation();
@@ -68,7 +68,7 @@ export function useApplicationPreview() {
       recruitmentId: id,
       fileUrl,
       createdAt: new Date(),
-      status: kApplicationStatus.submitted
+      status: kApplicationStatus.submitted,
     };
 
     await addDocument('applications', applicationData);

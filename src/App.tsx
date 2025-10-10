@@ -14,7 +14,7 @@ import { GlobalFeedbackDialog } from './components/macro/GlobalFeedbackDialog';
 import { useCurrentUser } from './hooks/useCurrentUser';
 
 function App() {
-  const {user} = useCurrentUser()
+  const { user } = useCurrentUser();
 
   return (
     <>

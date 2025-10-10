@@ -17,7 +17,7 @@ export function Applicants({ applications }: ApplicationMatchListProps) {
       </Text>
 
       <VStack align="stretch" gap={3}>
-        {applications.map((app) => (
+        {applications.map(app => (
           <Flex
             key={app.id}
             borderWidth="1px"

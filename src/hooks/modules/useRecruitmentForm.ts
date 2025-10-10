@@ -14,37 +14,41 @@ import { showFeedback } from '@/store/feedbackSlice';
 import { useNav } from '../useNav';
 import { fetchApplicationsByRecruitmentIdAndStatus } from '@/api-client/firebase/application';
 import type { ApplicationPreviewEntity } from '@/types/modules/Application';
-import Fuse from 'fuse.js'
+import Fuse from 'fuse.js';
 import { useCurrentUser } from '../useCurrentUser';
 import { kApplicationStatus } from '@/constants/application-status';
 
 export type MatchedApplication = ApplicationPreviewEntity & {
-  match: number
-}
+  match: number;
+};
 
 export function useRecruitmentForm(id?: string) {
-  const { user } = useCurrentUser()
+  const { user } = useCurrentUser();
   const dispatch = useDispatch();
   const { back } = useNav();
 
   // Query Firestore when `id` is available
-  const { 
-      data, 
-      isLoading: isGetRecruitmentLoading, 
-      error: getRecruitmentError
-    } = useQuery({
+  const {
+    data,
+    isLoading: isGetRecruitmentLoading,
+    error: getRecruitmentError,
+  } = useQuery({
     queryKey: ['recruitment', id],
     queryFn: () => fetchRecruitmentById(id!),
     enabled: !!id,
   });
 
-  const { 
-    data: applications, 
-    isLoading: isGetApplicationsLoading, 
-    error: getApplicationsError 
+  const {
+    data: applications,
+    isLoading: isGetApplicationsLoading,
+    error: getApplicationsError,
   } = useQuery({
     queryKey: ['applications', id],
-    queryFn: () => fetchApplicationsByRecruitmentIdAndStatus(id!, kApplicationStatus.submitted),
+    queryFn: () =>
+      fetchApplicationsByRecruitmentIdAndStatus(
+        id!,
+        kApplicationStatus.submitted
+      ),
     enabled: !!id,
   });
 
@@ -111,47 +115,57 @@ export function useRecruitmentForm(id?: string) {
     }
   };
 
-  const isLoading = useMemo(() => isGetApplicationsLoading || isGetRecruitmentLoading, [isGetApplicationsLoading, isGetRecruitmentLoading])
+  const isLoading = useMemo(
+    () => isGetApplicationsLoading || isGetRecruitmentLoading,
+    [isGetApplicationsLoading, isGetRecruitmentLoading]
+  );
 
-  const error = useMemo(() => getApplicationsError || getRecruitmentError, [getApplicationsError, getRecruitmentError])
+  const error = useMemo(
+    () => getApplicationsError || getRecruitmentError,
+    [getApplicationsError, getRecruitmentError]
+  );
 
   const sortedApplications = useMemo(() => {
-    if (!applications?.length) return []
-    if (!data?.id) return []
+    if (!applications?.length) return [];
+    if (!data?.id) return [];
 
     const normalize = (text: string) =>
-      text.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim()
+      text
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, '')
+        .trim();
 
-    const normalizedRequirements = data.requirements.map(normalize)
+    const normalizedRequirements = data.requirements.map(normalize);
 
     const matched = applications.map((app): MatchedApplication => {
-      const normalizedSkills = app.skills.map(normalize)
+      const normalizedSkills = app.skills.map(normalize);
 
       // Fuse for fuzzy matching of requirements to skills
       const fuse = new Fuse(normalizedSkills, {
         includeScore: true,
         threshold: 0.4, // lower = stricter match
         distance: 100,
-      })
+      });
 
       // Aggregate match score
       const totalScore = normalizedRequirements.reduce((sum, req) => {
-        const bestMatch = fuse.search(req)[0]
-        const score = bestMatch ? 1 - (bestMatch.score ?? 1) : 0
-        return sum + score
-      }, 0)
+        const bestMatch = fuse.search(req)[0];
+        const score = bestMatch ? 1 - (bestMatch.score ?? 1) : 0;
+        return sum + score;
+      }, 0);
 
-      const match = Math.round((totalScore / normalizedRequirements.length) * 100)
+      const match = Math.round(
+        (totalScore / normalizedRequirements.length) * 100
+      );
 
       return {
         ...app,
         match,
-      }
-    })
+      };
+    });
 
-    return matched.sort((a, b) => b.match - a.match)
-
-  }, [applications, data?.requirements])
+    return matched.sort((a, b) => b.match - a.match);
+  }, [applications, data?.requirements, data?.id]);
 
   return {
     methods,

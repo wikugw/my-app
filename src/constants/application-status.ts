@@ -1,7 +1,8 @@
 export const kApplicationStatus = {
-  submitted: "Submitted",
-  approvedForInterview: "Approved For Interview",
-  declined: "Declined"
-} as const
+  submitted: 'Submitted',
+  approvedForInterview: 'Approved For Interview',
+  declined: 'Declined',
+} as const;
 
-export type ApplicationStatus = typeof kApplicationStatus[keyof typeof kApplicationStatus];
+export type ApplicationStatus =
+  (typeof kApplicationStatus)[keyof typeof kApplicationStatus];

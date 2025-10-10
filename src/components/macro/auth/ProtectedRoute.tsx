@@ -8,7 +8,7 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const {user, loading} = useCurrentUser()
+  const { user, loading } = useCurrentUser();
 
   if (loading) return <p>Loading...</p>;
   if (!user) return <Navigate to="/login" replace />;

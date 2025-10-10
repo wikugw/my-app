@@ -48,7 +48,7 @@ export async function fetchApplicationsByRecruitmentIdAndStatus(
   const q = query(
     collection(db, 'applications'),
     where('recruitmentId', '==', recruitmentId),
-    where("status", "==", status)
+    where('status', '==', status)
   );
 
   const querySnapshot = await getDocs(q);
@@ -58,15 +58,15 @@ export async function fetchApplicationsByRecruitmentIdAndStatus(
   }
 
   const applications: ApplicationPreviewEntity[] = querySnapshot.docs.map(
-    (docSnap) => {
+    docSnap => {
       const data = docSnap.data();
 
       const createdAt =
         data.createdAt instanceof Date
           ? data.createdAt
           : data.createdAt?.toDate
-          ? data.createdAt.toDate()
-          : new Date();
+            ? data.createdAt.toDate()
+            : new Date();
 
       return {
         id: docSnap.id,

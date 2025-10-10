@@ -11,8 +11,14 @@ const RecruitmentForm = () => {
   const location = useLocation();
   const { id } = location.state || {};
 
-  const { methods, watchedValues, isLoading, error, sortedApplications, onSubmit } =
-    useRecruitmentForm(id);
+  const {
+    methods,
+    watchedValues,
+    isLoading,
+    error,
+    sortedApplications,
+    onSubmit,
+  } = useRecruitmentForm(id);
 
   if (isLoading) {
     return <FullScreenSpinner />;
