@@ -1,9 +1,7 @@
-import { useAuthState } from 'react-firebase-hooks/auth';
-
-import { auth } from '../firebase';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 const DashboardPage = () => {
-  const [user] = useAuthState(auth);
+  const {user} = useCurrentUser()
 
   return (
     <div>

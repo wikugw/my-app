@@ -6,12 +6,12 @@ import RecruitmentPreview from './RecruitmentPreview';
 import { useRecruitmentForm } from '@/hooks/modules/useRecruitmentForm';
 import { FullScreenSpinner } from '@/components/micro/FullScreenSpinner';
 import { NoDataContainer } from '@/components/micro/NoDataContainer';
-
+import { Applicants } from './recruitment-form/Applicants';
 const RecruitmentForm = () => {
   const location = useLocation();
   const { id } = location.state || {};
 
-  const { methods, watchedValues, isLoading, error, onSubmit } =
+  const { methods, watchedValues, isLoading, error, sortedApplications, onSubmit } =
     useRecruitmentForm(id);
 
   if (isLoading) {
@@ -32,6 +32,7 @@ const RecruitmentForm = () => {
 
       <Box flex="1">
         <RecruitmentPreview values={watchedValues} />
+        <Applicants applications={sortedApplications} />
       </Box>
     </Flex>
   );

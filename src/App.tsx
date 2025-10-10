@@ -1,9 +1,7 @@
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import MainLayout from './components/layouts/main-layout/MainLayout';
 import { ProtectedRoute } from './components/macro/auth/ProtectedRoute';
-import { auth } from './firebase';
 import DashboardPage from './pages/DashboardPage';
 import FinishSignInPage from './pages/FinishSignInPage';
 import LoginPage from './pages/LoginPage';
@@ -13,9 +11,10 @@ import ApplicationPage from './pages/applications/ApplicationPage';
 import { ContainerLayout } from './components/layouts/ContainerLayout';
 import ApplicationPreviewPage from './pages/applications/ApplicationPreviewPage';
 import { GlobalFeedbackDialog } from './components/macro/GlobalFeedbackDialog';
+import { useCurrentUser } from './hooks/useCurrentUser';
 
 function App() {
-  const [user] = useAuthState(auth);
+  const {user} = useCurrentUser()
 
   return (
     <>

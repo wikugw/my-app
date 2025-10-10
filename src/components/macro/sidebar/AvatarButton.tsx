@@ -1,14 +1,12 @@
 import { Popover } from '@chakra-ui/react';
 import { useMemo } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-
-import { auth } from '../../../firebase';
 import { AvatarPlacholder } from '../../micro/AvatarPlacholder';
 import { Button } from '../../micro/button/Button';
 import { AvatarPopoverButtons } from './AvatarPopoverButtons';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 export const AvatarButton = () => {
-  const [user] = useAuthState(auth);
+  const {user} = useCurrentUser()
 
   const displayName = useMemo(
     () => user?.displayName ?? '',

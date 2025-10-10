@@ -1,9 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { useQuery } from '@tanstack/react-query';
-import { auth } from '@/firebase';
 import { addDocument, updateDocument } from '@/helpers/firestoreHelpers';
 import { fetchRecruitmentById } from '@/api-client/firebase/recruitment';
 import {
@@ -14,16 +12,39 @@ import type { RecruitmentFormType } from '@/types/modules/Recruitment';
 import { useDispatch } from 'react-redux';
 import { showFeedback } from '@/store/feedbackSlice';
 import { useNav } from '../useNav';
+import { fetchApplicationsByRecruitmentIdAndStatus } from '@/api-client/firebase/application';
+import type { ApplicationPreviewEntity } from '@/types/modules/Application';
+import Fuse from 'fuse.js'
+import { useCurrentUser } from '../useCurrentUser';
+import { kApplicationStatus } from '@/constants/application-status';
+
+export type MatchedApplication = ApplicationPreviewEntity & {
+  match: number
+}
 
 export function useRecruitmentForm(id?: string) {
-  const [user] = useAuthState(auth);
+  const { user } = useCurrentUser()
   const dispatch = useDispatch();
   const { back } = useNav();
 
   // Query Firestore when `id` is available
-  const { data, isLoading, error } = useQuery({
+  const { 
+      data, 
+      isLoading: isGetRecruitmentLoading, 
+      error: getRecruitmentError
+    } = useQuery({
     queryKey: ['recruitment', id],
     queryFn: () => fetchRecruitmentById(id!),
+    enabled: !!id,
+  });
+
+  const { 
+    data: applications, 
+    isLoading: isGetApplicationsLoading, 
+    error: getApplicationsError 
+  } = useQuery({
+    queryKey: ['applications', id],
+    queryFn: () => fetchApplicationsByRecruitmentIdAndStatus(id!, kApplicationStatus.submitted),
     enabled: !!id,
   });
 
@@ -90,11 +111,54 @@ export function useRecruitmentForm(id?: string) {
     }
   };
 
+  const isLoading = useMemo(() => isGetApplicationsLoading || isGetRecruitmentLoading, [isGetApplicationsLoading, isGetRecruitmentLoading])
+
+  const error = useMemo(() => getApplicationsError || getRecruitmentError, [getApplicationsError, getRecruitmentError])
+
+  const sortedApplications = useMemo(() => {
+    if (!applications?.length) return []
+    if (!data?.id) return []
+
+    const normalize = (text: string) =>
+      text.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim()
+
+    const normalizedRequirements = data.requirements.map(normalize)
+
+    const matched = applications.map((app): MatchedApplication => {
+      const normalizedSkills = app.skills.map(normalize)
+
+      // Fuse for fuzzy matching of requirements to skills
+      const fuse = new Fuse(normalizedSkills, {
+        includeScore: true,
+        threshold: 0.4, // lower = stricter match
+        distance: 100,
+      })
+
+      // Aggregate match score
+      const totalScore = normalizedRequirements.reduce((sum, req) => {
+        const bestMatch = fuse.search(req)[0]
+        const score = bestMatch ? 1 - (bestMatch.score ?? 1) : 0
+        return sum + score
+      }, 0)
+
+      const match = Math.round((totalScore / normalizedRequirements.length) * 100)
+
+      return {
+        ...app,
+        match,
+      }
+    })
+
+    return matched.sort((a, b) => b.match - a.match)
+
+  }, [applications, data?.requirements])
+
   return {
     methods,
     watchedValues,
     isLoading,
     error,
+    sortedApplications,
     onSubmit,
   };
 }

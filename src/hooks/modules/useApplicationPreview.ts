@@ -15,16 +15,16 @@ import { uploadFileToStorage } from '@/helpers/storageHelpers';
 import { addDocument } from '@/helpers/firestoreHelpers';
 import { showFeedback } from '@/store/feedbackSlice';
 import { useNav } from '@/hooks/useNav';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@/firebase';
 import { fetchApplicationByRecruitmentAndEmail } from '@/api-client/firebase/application';
+import { useCurrentUser } from '../useCurrentUser';
+import { kApplicationStatus } from '@/constants/application-status';
 
 export function useApplicationPreview() {
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const dispatch = useDispatch();
   const { back } = useNav();
-  const [user] = useAuthState(auth);
+  const {user} = useCurrentUser()
 
   // 🧭 Retrieve recruitment ID from router state
   const location = useLocation();
@@ -68,6 +68,7 @@ export function useApplicationPreview() {
       recruitmentId: id,
       fileUrl,
       createdAt: new Date(),
+      status: kApplicationStatus.submitted
     };
 
     await addDocument('applications', applicationData);

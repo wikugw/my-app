@@ -1,15 +1,14 @@
 import type { ReactNode } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { Navigate } from 'react-router-dom';
 
-import { auth } from '../../../firebase';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 interface ProtectedRouteProps {
   children: ReactNode;
 }
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const [user, loading] = useAuthState(auth);
+  const {user, loading} = useCurrentUser()
 
   if (loading) return <p>Loading...</p>;
   if (!user) return <Navigate to="/login" replace />;
