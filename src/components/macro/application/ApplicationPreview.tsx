@@ -21,7 +21,6 @@ export function ApplicationPreview() {
     onSubmit,
     selectedFile,
     isApplicationError,
-    isApplied,
     isLoadingApplication,
   } = useApplicationPreview();
 
@@ -38,7 +37,6 @@ export function ApplicationPreview() {
           setIsOpenForm={setIsOpenForm}
           handleCancel={handleCancel}
           handleUploadCV={handleApplyWithCV}
-          isApplied={isApplied}
         />
         {isOpenForm && (
           <FormProvider {...methods}>

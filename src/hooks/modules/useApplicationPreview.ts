@@ -18,6 +18,7 @@ import { useNav } from '@/hooks/useNav';
 import { fetchApplicationByRecruitmentAndEmail } from '@/api-client/firebase/application';
 import { useCurrentUser } from '../useCurrentUser';
 import { kApplicationStatus } from '@/constants/application-status';
+import { useCheckExistingApplication } from './useCheckExistingApplication';
 
 export function useApplicationPreview() {
   const [isOpenForm, setIsOpenForm] = useState(false);
@@ -25,6 +26,7 @@ export function useApplicationPreview() {
   const dispatch = useDispatch();
   const { back } = useNav();
   const { user } = useCurrentUser();
+  const checkApplication = useCheckExistingApplication();
 
   // 🧭 Retrieve recruitment ID from router state
   const location = useLocation();
@@ -57,6 +59,21 @@ export function useApplicationPreview() {
 
   // ✅ Handle submission
   const handleSubmit = async (data: ApplicationFormInputs) => {
+    const existing = await checkApplication.mutateAsync({
+      recruitmentId: id!,
+      email: data.email,
+    });
+
+    if (existing) {
+      dispatch(
+        showFeedback({
+          type: 'failure',
+          message: 'You have already applied for this recruitment.',
+        })
+      );
+      return;
+    }
+
     let fileUrl: string | null = null;
 
     if (selectedFile) {
