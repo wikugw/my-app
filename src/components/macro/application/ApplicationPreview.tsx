@@ -15,10 +15,17 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { pdfToApplicationData } from '@/helpers/pdfExtractor';
 import { ApplicationPreviewHeaderButtons } from './application-preview/HeaderButtons';
+import { uploadFileToStorage } from '@/helpers/storageHelpers';
+import { addDocument } from '@/helpers/firestoreHelpers';
+import { useDispatch } from 'react-redux';
+import { showFeedback } from '@/store/feedbackSlice';
+import { useNav } from '@/hooks/useNav';
 
 export function ApplicationPreview() {
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const dispatch = useDispatch();
+  const { back } = useNav();
 
   const location = useLocation();
   const { id } = location.state || {};
@@ -36,8 +43,52 @@ export function ApplicationPreview() {
     reValidateMode: 'onChange',
   });
 
-  const onSubmit = (data: ApplicationFormInputs) => {
-    console.log(data);
+  const onSuccessConfirm = () => {
+    back();
+  };
+
+  const handleSubmit = async (data: ApplicationFormInputs) => {
+    let fileUrl: string | null = null;
+
+    // 1️⃣ Upload file if available
+    if (selectedFile) {
+      fileUrl = await uploadFileToStorage(selectedFile, 'applications');
+    }
+
+    // 2️⃣ Prepare data for Firestore
+    const applicationData = {
+      ...data,
+      recruitmentId: id,
+      fileUrl,
+      createdAt: new Date(),
+    };
+
+    // 3️⃣ Save to Firestore
+    await addDocument('applications', applicationData);
+
+    // 4️⃣ Optional: reset and close form
+    methods.reset();
+    setIsOpenForm(false);
+    setSelectedFile(null);
+
+    dispatch(
+      showFeedback({
+        type: 'success',
+        message: 'Data updated successfully',
+        onConfirm: onSuccessConfirm,
+      })
+    );
+  };
+
+  const onSubmit = async (data: ApplicationFormInputs) => {
+    try {
+      await handleSubmit(data);
+    } catch (error) {
+      console.error('Error adding document:', error);
+      dispatch(
+        showFeedback({ type: 'failure', message: 'Failed to save data' })
+      );
+    }
   };
 
   const handleApplyWithCV = async (file: File) => {

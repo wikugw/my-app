@@ -12,47 +12,51 @@ import RecruitmentPage from './pages/recruitments/RecruitmentPage';
 import ApplicationPage from './pages/applications/ApplicationPage';
 import { ContainerLayout } from './components/layouts/ContainerLayout';
 import ApplicationPreviewPage from './pages/applications/ApplicationPreviewPage';
+import { GlobalFeedbackDialog } from './components/macro/GlobalFeedbackDialog';
 
 function App() {
   const [user] = useAuthState(auth);
 
   return (
-    <Routes>
-      <Route
-        path="/login"
-        element={user ? <Navigate to="/" replace /> : <LoginPage />}
-      />
-      <Route path="/finishSignIn" element={<FinishSignInPage />} />
-      <Route
-        element={
-          <ContainerLayout>
-            <Outlet />
-          </ContainerLayout>
-        }
-      >
-        <Route path="/application" element={<ApplicationPage />} />
+    <>
+      <Routes>
         <Route
-          path="/application/detail"
-          element={<ApplicationPreviewPage />}
+          path="/login"
+          element={user ? <Navigate to="/" replace /> : <LoginPage />}
         />
-      </Route>
-      <Route
-        element={
-          <ProtectedRoute>
-            <MainLayout>
+        <Route path="/finishSignIn" element={<FinishSignInPage />} />
+        <Route
+          element={
+            <ContainerLayout>
               <Outlet />
-            </MainLayout>
-          </ProtectedRoute>
-        }
-      >
-        <Route path="/" element={<DashboardPage />} />
-        <Route path="/recruitment" element={<RecruitmentPage />} />
-        <Route path="/recruitment/create" element={<RecruitmentFormPage />} />
-        <Route path="/recruitment/detail" element={<RecruitmentFormPage />} />
-      </Route>
-      {/* catch-all redirect */}
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+            </ContainerLayout>
+          }
+        >
+          <Route path="/application" element={<ApplicationPage />} />
+          <Route
+            path="/application/detail"
+            element={<ApplicationPreviewPage />}
+          />
+        </Route>
+        <Route
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <Outlet />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/recruitment" element={<RecruitmentPage />} />
+          <Route path="/recruitment/create" element={<RecruitmentFormPage />} />
+          <Route path="/recruitment/detail" element={<RecruitmentFormPage />} />
+        </Route>
+        {/* catch-all redirect */}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+      <GlobalFeedbackDialog />
+    </>
   );
 }
 

@@ -15,7 +15,9 @@ export const pdfToApplicationData = async (file: File) => {
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
     const textContent = await page.getTextContent();
-    const pageText = textContent.items.map(item => (item as TextItem).str).join(' ');
+    const pageText = textContent.items
+      .map(item => (item as TextItem).str)
+      .join(' ');
     fullText += ' ' + pageText;
   }
 

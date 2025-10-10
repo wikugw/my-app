@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -11,14 +11,14 @@ import {
   type RecrutmentFormInputs,
 } from '@/validations/modules/recruitment-form';
 import type { RecruitmentFormType } from '@/types/modules/Recruitment';
+import { useDispatch } from 'react-redux';
+import { showFeedback } from '@/store/feedbackSlice';
+import { useNav } from '../useNav';
 
 export function useRecruitmentForm(id?: string) {
   const [user] = useAuthState(auth);
-  const [isDialogOpen, setDialogOpen] = useState(false);
-  const [feedbackType, setFeedbackType] = useState<'success' | 'failure'>(
-    'success'
-  );
-  const [feedbackMsg, setFeedbackMsg] = useState('Data Saved');
+  const dispatch = useDispatch();
+  const { back } = useNav();
 
   // Query Firestore when `id` is available
   const { data, isLoading, error } = useQuery({
@@ -44,6 +44,10 @@ export function useRecruitmentForm(id?: string) {
     }
   }, [data, methods]);
 
+  const onSuccessConfirm = () => {
+    back();
+  };
+
   const onSubmit = async (formData: RecrutmentFormInputs) => {
     try {
       const payload: RecruitmentFormType = {
@@ -60,20 +64,29 @@ export function useRecruitmentForm(id?: string) {
       if (id) {
         // 🔹 UPDATE EXISTING DOCUMENT
         updateDocument('recruitments', id, payload);
-        setFeedbackMsg('Data updated successfully');
+        dispatch(
+          showFeedback({
+            type: 'success',
+            message: 'Data updated successfully',
+            onConfirm: onSuccessConfirm,
+          })
+        );
       } else {
         // 🔹 ADD NEW DOCUMENT
         await addDocument('recruitments', payload);
-        setFeedbackMsg('Data saved successfully');
+        dispatch(
+          showFeedback({
+            type: 'success',
+            message: 'Data saved successfully',
+            onConfirm: onSuccessConfirm,
+          })
+        );
       }
-
-      setFeedbackType('success');
-      setDialogOpen(true);
     } catch (e) {
       console.error('Error adding document:', e);
-      setFeedbackType('failure');
-      setFeedbackMsg(JSON.stringify(e));
-      setDialogOpen(true);
+      dispatch(
+        showFeedback({ type: 'failure', message: 'Failed to save data' })
+      );
     }
   };
 
@@ -83,9 +96,5 @@ export function useRecruitmentForm(id?: string) {
     isLoading,
     error,
     onSubmit,
-    isDialogOpen,
-    setDialogOpen,
-    feedbackType,
-    feedbackMsg,
   };
 }
