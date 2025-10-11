@@ -9,7 +9,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import GoogleSvg from '../../../assets/google.svg';
-import { actionCodeSettings, auth } from '../../../firebase';
+import { actionCodeSettings, auth } from '../../../lib/firebase';
 import { Button } from '../../micro/button/Button';
 import { Input } from '../../micro/input/Input';
 import { Text } from '../../micro/Text';

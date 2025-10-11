@@ -6,7 +6,7 @@ import {
   type DocumentData,
 } from 'firebase/firestore';
 
-import { db } from '../firebase';
+import { db } from '../lib/firebase';
 
 /**
  * Add a document to any collection.

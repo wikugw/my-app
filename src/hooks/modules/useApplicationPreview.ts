@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -15,8 +15,6 @@ import { uploadFileToStorage } from '@/helpers/storageHelpers';
 import { addDocument } from '@/helpers/firestoreHelpers';
 import { showFeedback } from '@/store/feedbackSlice';
 import { useNav } from '@/hooks/useNav';
-import { fetchApplicationByRecruitmentAndEmail } from '@/api-client/firebase/application';
-import { useCurrentUser } from '../useCurrentUser';
 import { kApplicationStatus } from '@/constants/application-status';
 import { useCheckExistingApplication } from './useCheckExistingApplication';
 
@@ -25,7 +23,6 @@ export function useApplicationPreview() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const dispatch = useDispatch();
   const { back } = useNav();
-  const { user } = useCurrentUser();
   const checkApplication = useCheckExistingApplication();
 
   // 🧭 Retrieve recruitment ID from router state
@@ -37,16 +34,6 @@ export function useApplicationPreview() {
     queryKey: ['application', id],
     queryFn: () => fetchRecruitmentById(id!),
     enabled: !!id,
-  });
-
-  const {
-    data: applicationData,
-    isLoading: isLoadingApplication,
-    error: isApplicationError,
-  } = useQuery({
-    queryKey: ['applications', id, user?.email],
-    queryFn: () => fetchApplicationByRecruitmentAndEmail(id, user?.email ?? ''),
-    enabled: !!id && !!user?.email,
   });
 
   // 📝 Form setup
@@ -117,9 +104,7 @@ export function useApplicationPreview() {
   // 📄 Handle applying with CV file
   const handleApplyWithCV = async (file: File) => {
     const { name, email, skills } = await pdfToApplicationData(file);
-    methods.setValue('email', email);
-    methods.setValue('name', name);
-    methods.setValue('skills', skills);
+    updateData({ email, name, skills });
     setSelectedFile(file);
     setIsOpenForm(true);
   };
@@ -133,9 +118,19 @@ export function useApplicationPreview() {
     setSelectedFile(file);
   };
 
-  const isApplied = useMemo(() => {
-    return !!applicationData?.id;
-  }, [applicationData?.id]);
+  const updateData = ({
+    email,
+    name,
+    skills,
+  }: {
+    email: string;
+    name: string;
+    skills: string[];
+  }) => {
+    methods.setValue('email', email);
+    methods.setValue('name', name);
+    methods.setValue('skills', skills);
+  };
 
   return {
     id,
@@ -150,8 +145,7 @@ export function useApplicationPreview() {
     handleApplyWithCV,
     handleUploadCV,
     onSubmit,
-    isApplied,
-    isApplicationError,
-    isLoadingApplication,
+    updateData,
+    setSelectedFile,
   };
 }

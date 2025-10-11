@@ -1,4 +1,4 @@
-import { db } from '@/firebase';
+import { db } from '@/lib/firebase';
 import type { RecruitmentPreviewType } from '@/types/modules/Recruitment';
 import {
   collection,

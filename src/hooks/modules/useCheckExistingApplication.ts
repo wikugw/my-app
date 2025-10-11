@@ -3,7 +3,12 @@ import { useMutation } from '@tanstack/react-query';
 
 export function useCheckExistingApplication() {
   return useMutation({
-    mutationFn: ({ recruitmentId, email }: { recruitmentId: string; email: string }) =>
-      fetchApplicationByRecruitmentAndEmail(recruitmentId, email),
+    mutationFn: ({
+      recruitmentId,
+      email,
+    }: {
+      recruitmentId: string;
+      email: string;
+    }) => fetchApplicationByRecruitmentAndEmail(recruitmentId, email),
   });
 }

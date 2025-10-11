@@ -2,7 +2,7 @@ import { Popover, Portal } from '@chakra-ui/react';
 import { signOut } from 'firebase/auth';
 import { useState } from 'react';
 
-import { auth } from '../../../firebase';
+import { auth } from '../../../lib/firebase';
 import { Button } from '../../micro/button/Button';
 import { ConfirmDialog } from '../../micro/modal/Confirmation';
 

@@ -1,6 +1,5 @@
 import { Button } from '@/components/micro/button/Button';
 import { PdfUploader } from '@/components/micro/PdfUploader';
-import { Text } from '@/components/micro/Text';
 import { Flex } from '@chakra-ui/react';
 import type { Dispatch, SetStateAction } from 'react';
 

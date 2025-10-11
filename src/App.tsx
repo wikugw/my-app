@@ -12,6 +12,7 @@ import { ContainerLayout } from './components/layouts/ContainerLayout';
 import ApplicationPreviewPage from './pages/applications/ApplicationPreviewPage';
 import { GlobalFeedbackDialog } from './components/macro/GlobalFeedbackDialog';
 import { useCurrentUser } from './hooks/useCurrentUser';
+import { RecruitmentViewApplicationInfoPage } from './pages/recruitments/RecruitmentViewApplicationInfoPage';
 
 function App() {
   const { user } = useCurrentUser();
@@ -50,6 +51,10 @@ function App() {
           <Route path="/recruitment" element={<RecruitmentPage />} />
           <Route path="/recruitment/create" element={<RecruitmentFormPage />} />
           <Route path="/recruitment/detail" element={<RecruitmentFormPage />} />
+          <Route
+            path="/recruitment/application/detail"
+            element={<RecruitmentViewApplicationInfoPage />}
+          />
         </Route>
         {/* catch-all redirect */}
         <Route path="*" element={<Navigate to="/" />} />

@@ -18,6 +18,7 @@ interface InputProps extends Omit<ChakraInputProps, 'size'> {
   label?: string;
   inputSize?: Size;
   rules?: RegisterOptions; // ✅ validation rules
+  disabled?: boolean;
 }
 
 export const Input = ({
@@ -25,6 +26,7 @@ export const Input = ({
   label,
   inputSize = 'md',
   rules,
+  disabled = false,
   ...props
 }: InputProps) => {
   const {
@@ -61,6 +63,7 @@ export const Input = ({
             size={inputSize}
             aria-invalid={hasError || undefined}
             _invalid={{ borderColor: 'red.500', boxShadow: '0 0 0 1px red' }}
+            disabled={disabled}
             {...props}
           />
 

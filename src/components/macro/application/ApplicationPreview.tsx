@@ -20,13 +20,10 @@ export function ApplicationPreview() {
     handleUploadCV,
     onSubmit,
     selectedFile,
-    isApplicationError,
-    isLoadingApplication,
   } = useApplicationPreview();
 
-  if (isLoading || isLoadingApplication) return <FullScreenSpinner />;
-  if (error || isApplicationError)
-    return <NoDataContainer text="Failed to load recruitment" />;
+  if (isLoading) return <FullScreenSpinner />;
+  if (error) return <NoDataContainer text="Failed to load recruitment" />;
 
   return (
     <Flex w="100%" gap={4}>

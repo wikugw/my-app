@@ -1,5 +1,5 @@
 import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from '@/firebase'; // adjust your import if needed
+import { db } from '@/lib/firebase'; // adjust your import if needed
 import type { ApplicationPreviewEntity } from '@/types/modules/Application';
 import type { ApplicationStatus } from '@/constants/application-status';
 

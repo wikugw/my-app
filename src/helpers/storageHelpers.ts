@@ -1,5 +1,7 @@
 import { supabase } from '@/lib/supabase';
 
+const bucketName = 'my-app';
+
 /**
  * Uploads a file to a (possibly private) Supabase bucket and returns a signed URL.
  */
@@ -9,7 +11,7 @@ export const uploadFileToStorage = async (file: File, folder: string) => {
 
     // Upload the file
     const { error: uploadError } = await supabase.storage
-      .from('my-app') // your bucket name
+      .from(bucketName)
       .upload(filePath, file, {
         contentType: file.type || 'application/octet-stream',
         upsert: true,
@@ -17,16 +19,27 @@ export const uploadFileToStorage = async (file: File, folder: string) => {
 
     if (uploadError) throw uploadError;
 
-    // Generate a signed URL (valid for 1 hour)
-    const { data: signedData, error: signedError } = await supabase.storage
-      .from('my-app')
-      .createSignedUrl(filePath, 60 * 60);
-
-    if (signedError) throw signedError;
-
-    return signedData.signedUrl; // ✅ Use this in your app or Firestore record
+    // ✅ Return file metadata instead of signed URL
+    return filePath;
   } catch (err) {
     console.error('❌ Upload failed:', err);
     throw err;
   }
 };
+
+export async function downloadFile(filePath: string): Promise<File> {
+  const { data, error } = await supabase.storage
+    .from(bucketName)
+    .download(filePath);
+
+  if (error) {
+    console.error('❌ Failed to download file:', error.message);
+    throw error;
+  }
+
+  // Convert Blob to File for compatibility with file inputs or uploads
+  const fileName = filePath.split('/').pop() || 'downloaded-file';
+  const file = new File([data], fileName, { type: data.type });
+
+  return file;
+}
