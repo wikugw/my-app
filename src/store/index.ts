@@ -5,7 +5,7 @@ export const store = configureStore({
   reducer: {
     feedback: feedbackReducer,
   },
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActionPaths: ['payload.onConfirm'],

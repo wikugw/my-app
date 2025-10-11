@@ -43,12 +43,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
           </VStack>
 
           {/* Bottom section */}
-          <Box
-            position="sticky"
-            bottom="4"
-            pt={4}
-            zIndex="1"
-          >
+          <Box position="sticky" bottom="4" pt={4} zIndex="1">
             <AvatarButton />
           </Box>
         </Flex>

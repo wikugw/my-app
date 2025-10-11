@@ -10,7 +10,10 @@ import { PdfViewer } from '@/components/micro/PdfViewer';
 import { Text } from '@/components/micro/Text';
 import { ActionButtons } from './ActionButtons';
 import { useRecruitmentFlow } from '@/hooks/modules/useRecruitmentFlow';
-import { kApplicationStatus, type ApplicationStatus } from '@/constants/application-status';
+import {
+  kApplicationStatus,
+  type ApplicationStatus,
+} from '@/constants/application-status';
 
 type ApplicationInfoViewState = MatchedApplication & {
   positionName: string;
@@ -24,7 +27,12 @@ export function ApplicationInfoView() {
   const { methods, updateData, setSelectedFile, selectedFile } =
     useApplicationPreview();
 
-  const { setApplication, setPositionName, declineApplication, proceedToInterview } = useRecruitmentFlow();
+  const {
+    setApplication,
+    setPositionName,
+    declineApplication,
+    proceedToInterview,
+  } = useRecruitmentFlow();
 
   useEffect(() => {
     if (applicationData) {
@@ -47,7 +55,15 @@ export function ApplicationInfoView() {
           console.error('Error downloading file:', err);
         });
     }
-  }, [applicationData, updateData, setSelectedFile, selectedFile, selectedUrl]);
+  }, [
+    applicationData,
+    updateData,
+    setSelectedFile,
+    selectedFile,
+    selectedUrl,
+    setApplication,
+    setPositionName,
+  ]);
 
   const handleConfirmAction = (status: ApplicationStatus) => {
     if (status === kApplicationStatus.declined) {
@@ -55,7 +71,7 @@ export function ApplicationInfoView() {
     } else if (status === kApplicationStatus.approvedForInterview) {
       proceedToInterview();
     }
-  }
+  };
 
   return (
     <Box position="relative" minHeight="100vh">
@@ -69,7 +85,7 @@ export function ApplicationInfoView() {
 
         {/* right side uploaded cv (if any) get from selectedFile */}
         <Box flex={1}>
-          <Text variant='paragraphMedium'>Uploaded CV</Text>
+          <Text variant="paragraphMedium">Uploaded CV</Text>
           {selectedFile ? (
             <PdfViewer fileUrl={selectedUrl!} />
           ) : (
@@ -90,7 +106,7 @@ export function ApplicationInfoView() {
         px={4}
         mt={8}
       >
-        <ActionButtons onConfirm={handleConfirmAction} /> 
+        <ActionButtons onConfirm={handleConfirmAction} />
       </Box>
     </Box>
   );

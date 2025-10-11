@@ -1,4 +1,11 @@
-import { collection, getDocs, query, where, doc, updateDoc } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+  updateDoc,
+} from 'firebase/firestore';
 import { db } from '@/lib/firebase'; // adjust your import if needed
 import type { ApplicationPreviewEntity } from '@/types/modules/Application';
 import type { ApplicationStatus } from '@/constants/application-status';
@@ -84,9 +91,12 @@ export async function fetchApplicationsByRecruitmentIdAndStatus(
  * @param applicationId - The Firestore document ID of the application
  * @param status - The new status to set
  */
-export async function updateApplicationStatus(applicationId: string, status: ApplicationStatus): Promise<void> {
-  if (!applicationId) throw new Error("Missing applicationId");
-  if (!status) throw new Error("Missing status");
+export async function updateApplicationStatus(
+  applicationId: string,
+  status: ApplicationStatus
+): Promise<void> {
+  if (!applicationId) throw new Error('Missing applicationId');
+  if (!status) throw new Error('Missing status');
 
   const applicationRef = doc(db, 'applications', applicationId);
   await updateDoc(applicationRef, { status });

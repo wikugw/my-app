@@ -8,7 +8,10 @@ interface ApplicationMatchListProps {
   recruitmentPositionName: string;
 }
 
-export function Applicants({ applications, recruitmentPositionName }: ApplicationMatchListProps) {
+export function Applicants({
+  applications,
+  recruitmentPositionName,
+}: ApplicationMatchListProps) {
   const { go } = useNav();
   if (!applications?.length) {
     return <Text color="gray">No applications yet</Text>;
