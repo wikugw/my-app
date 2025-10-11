@@ -4,12 +4,14 @@ import { FormProvider } from 'react-hook-form';
 import { useLocation } from 'react-router-dom';
 import { ApplicationForm } from '../../application/ApplicationForm';
 import { useApplicationPreview } from '@/hooks/modules/useApplicationPreview';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { downloadFile } from '@/helpers/storageHelpers';
+import { PdfViewer } from '@/components/micro/PdfViewer';
 
 export function ApplicationInfoView() {
   const location = useLocation();
   const applicationData: MatchedApplication = location.state;
+  const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
 
   const { methods, updateData, setSelectedFile, selectedFile } =
     useApplicationPreview();
@@ -23,16 +25,17 @@ export function ApplicationInfoView() {
       });
 
       if (!applicationData.fileUrl) return;
-      if (selectedFile) return; // already have file
+      if (selectedFile || selectedUrl) return; // already have file
       downloadFile(applicationData.fileUrl!)
         .then(file => {
           setSelectedFile(file);
+          setSelectedUrl(file ? URL.createObjectURL(file) : null);
         })
         .catch(err => {
           console.error('Error downloading file:', err);
         });
     }
-  }, [applicationData, updateData, setSelectedFile, selectedFile]);
+  }, [applicationData, updateData, setSelectedFile, selectedFile, selectedUrl]);
 
   return (
     <Flex w="100%" gap={4}>
@@ -47,13 +50,7 @@ export function ApplicationInfoView() {
       <Box flex={1}>
         <h2>Uploaded CV</h2>
         {selectedFile ? (
-          <a
-            href={URL.createObjectURL(selectedFile)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View CV
-          </a>
+          <PdfViewer fileUrl={selectedUrl!} />
         ) : (
           <p>No CV uploaded</p>
         )}
