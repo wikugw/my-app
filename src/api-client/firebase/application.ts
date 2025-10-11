@@ -85,6 +85,9 @@ export async function fetchApplicationsByRecruitmentIdAndStatus(
  * @param status - The new status to set
  */
 export async function updateApplicationStatus(applicationId: string, status: ApplicationStatus): Promise<void> {
+  if (!applicationId) throw new Error("Missing applicationId");
+  if (!status) throw new Error("Missing status");
+
   const applicationRef = doc(db, 'applications', applicationId);
   await updateDoc(applicationRef, { status });
 }

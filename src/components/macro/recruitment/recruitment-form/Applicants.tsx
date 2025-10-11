@@ -5,16 +5,18 @@ import { simpleDateTime } from '@/helpers/dateFormat';
 import { useNav } from '@/hooks/useNav';
 interface ApplicationMatchListProps {
   applications: MatchedApplication[];
+  recruitmentPositionName: string;
 }
 
-export function Applicants({ applications }: ApplicationMatchListProps) {
+export function Applicants({ applications, recruitmentPositionName }: ApplicationMatchListProps) {
   const { go } = useNav();
   if (!applications?.length) {
     return <Text color="gray">No applications yet</Text>;
   }
 
   const handleViewDetail = (application: MatchedApplication) => {
-    go(`/recruitment/application/detail`, { state: { ...application } });
+    const state = { ...application, positionName: recruitmentPositionName };
+    go(`/recruitment/application/detail`, { state });
   };
 
   return (

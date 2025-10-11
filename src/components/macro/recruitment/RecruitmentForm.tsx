@@ -38,7 +38,10 @@ const RecruitmentForm = () => {
 
       <Box flex="1">
         <RecruitmentPreview values={watchedValues} />
-        <Applicants applications={sortedApplications} />
+        <Applicants 
+          applications={sortedApplications} 
+          recruitmentPositionName={watchedValues.position || ''} 
+          />
       </Box>
     </Flex>
   );

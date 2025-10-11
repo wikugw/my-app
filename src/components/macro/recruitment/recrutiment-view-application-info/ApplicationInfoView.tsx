@@ -10,17 +10,21 @@ import { PdfViewer } from '@/components/micro/PdfViewer';
 import { Text } from '@/components/micro/Text';
 import { ActionButtons } from './ActionButtons';
 import { useRecruitmentFlow } from '@/hooks/modules/useRecruitmentFlow';
-import type { ApplicationStatus } from '@/constants/application-status';
+import { kApplicationStatus, type ApplicationStatus } from '@/constants/application-status';
+
+type ApplicationInfoViewState = MatchedApplication & {
+  positionName: string;
+};
 
 export function ApplicationInfoView() {
   const location = useLocation();
-  const applicationData: MatchedApplication = location.state;
+  const applicationData: ApplicationInfoViewState = location.state;
   const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
 
   const { methods, updateData, setSelectedFile, selectedFile } =
     useApplicationPreview();
 
-  const { setApplicationId, confirmAction } = useRecruitmentFlow();
+  const { setApplication, setPositionName, declineApplication, proceedToInterview } = useRecruitmentFlow();
 
   useEffect(() => {
     if (applicationData) {
@@ -29,6 +33,8 @@ export function ApplicationInfoView() {
         name: applicationData.name || '',
         skills: applicationData.skills || [],
       });
+      setPositionName(applicationData.positionName || '');
+      setApplication(applicationData);
 
       if (!applicationData.fileUrl) return;
       if (selectedFile || selectedUrl) return; // already have file
@@ -44,8 +50,11 @@ export function ApplicationInfoView() {
   }, [applicationData, updateData, setSelectedFile, selectedFile, selectedUrl]);
 
   const handleConfirmAction = (status: ApplicationStatus) => {
-    setApplicationId(applicationData.id);
-    confirmAction(status);
+    if (status === kApplicationStatus.declined) {
+      declineApplication();
+    } else if (status === kApplicationStatus.approvedForInterview) {
+      proceedToInterview();
+    }
   }
 
   return (

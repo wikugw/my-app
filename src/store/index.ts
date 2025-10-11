@@ -5,6 +5,13 @@ export const store = configureStore({
   reducer: {
     feedback: feedbackReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActionPaths: ['payload.onConfirm'],
+        ignoredPaths: ['feedback.onConfirm'],
+      },
+    }),
 });
 
 // Types for hooks

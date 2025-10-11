@@ -4,26 +4,15 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useUpdateApplication } from "./useUpdateApplication";
 import { useNav } from "../useNav";
+import { handleSendInvitation } from "@/helpers/email/sendInterviewHelper";
+import type { MatchedApplication } from "./useRecruitmentForm";
 
 export function useRecruitmentFlow() {
   const dispatch = useDispatch();
-  const [applicationId, setApplicationId] = useState<string | null>(null);
+  const [application, setApplication] = useState<MatchedApplication>({} as MatchedApplication);
   const updateApplicationStatus = useUpdateApplication();
   const { back } = useNav();
-
-  const confirmAction = (type: ApplicationStatus) => {
-    const nextAction = type === kApplicationStatus.approvedForInterview ? proceedToInterview : declineApplication;
-    const message = type === kApplicationStatus.approvedForInterview
-      ? "Are you sure you want to proceed to the interview stage?"
-      : "Are you sure you want to decline this application?";
-    dispatch(
-      showFeedback({
-        type: 'warning',
-        message: message,
-        onConfirm: nextAction,
-      })
-    );
-  }
+  const [positionName, setPositionName] = useState<string>('');
 
   const handleSuccessAction = (successMessage: string,) => {
     dispatch(
@@ -48,11 +37,20 @@ export function useRecruitmentFlow() {
   }
 
   const proceedToInterview = () => {
+    console.log(application.id, positionName)
     updateApplicationStatus.mutate({
-      applicationId: applicationId!,
+      applicationId: application.id,
       status: kApplicationStatus.approvedForInterview
     }, {
       onSuccess: () => {
+        handleSendInvitation({
+          name: application?.name || 'Candidate',
+          email: application?.email || 'candidate@example.com',
+          position: positionName || 'the position',
+          date: '2023-10-01',   // Example date, replace with actual date
+          time: '10:00 AM (GMT+7)', // Example time, replace with actual time
+          meet_url: 'https://meet.google.com/xyz-abcd-efg',   // Example URL, replace with actual meeting URL
+        })
         handleSuccessAction('Application has been moved to interview stage.');
       },
       onError: (error) => {
@@ -64,7 +62,7 @@ export function useRecruitmentFlow() {
 
   const declineApplication = () => {
     updateApplicationStatus.mutate({
-      applicationId: applicationId!,
+      applicationId: application.id,
       status: kApplicationStatus.declined
     }, {
       onSuccess: () => {
@@ -78,9 +76,10 @@ export function useRecruitmentFlow() {
   }
 
   return {
+    application,
     proceedToInterview,
     declineApplication,
-    confirmAction,
-    setApplicationId
+    setApplication,
+    setPositionName
   };
 }
