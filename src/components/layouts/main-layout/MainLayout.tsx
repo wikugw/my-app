@@ -19,7 +19,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
       {/* Sidebar */}
       <Box as="aside" bg="gray.800" color="white" p={4}>
         <Flex direction="column" h="100%">
-          <VStack align="stretch" gap={2}>
+          <VStack align="stretch" gap={2} flex="1" overflowY="auto">
             {NAVITEMS.map(item => {
               const isActive = location.pathname === item.path;
               return (
@@ -43,7 +43,12 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
           </VStack>
 
           {/* Bottom section */}
-          <Box mt="auto" pt={4}>
+          <Box
+            position="sticky"
+            bottom="4"
+            pt={4}
+            zIndex="1"
+          >
             <AvatarButton />
           </Box>
         </Flex>

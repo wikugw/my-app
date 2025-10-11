@@ -1,4 +1,4 @@
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where, doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase'; // adjust your import if needed
 import type { ApplicationPreviewEntity } from '@/types/modules/Application';
 import type { ApplicationStatus } from '@/constants/application-status';
@@ -77,4 +77,14 @@ export async function fetchApplicationsByRecruitmentIdAndStatus(
   );
 
   return applications;
+}
+
+/**
+ * Update the status of an application document in Firestore.
+ * @param applicationId - The Firestore document ID of the application
+ * @param status - The new status to set
+ */
+export async function updateApplicationStatus(applicationId: string, status: ApplicationStatus): Promise<void> {
+  const applicationRef = doc(db, 'applications', applicationId);
+  await updateDoc(applicationRef, { status });
 }

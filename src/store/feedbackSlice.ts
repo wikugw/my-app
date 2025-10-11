@@ -1,8 +1,10 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
+export type feedbackType = 'success' | 'failure' | 'warning';
+
 type FeedbackState = {
   isOpen: boolean;
-  type: 'success' | 'failure';
+  type: feedbackType;
   message: string;
   onConfirm?: (() => void) | null;
 };
@@ -21,7 +23,7 @@ export const feedbackSlice = createSlice({
     showFeedback: (
       state,
       action: PayloadAction<{
-        type: 'success' | 'failure';
+        type: feedbackType;
         message: string;
         onConfirm?: () => void;
       }>

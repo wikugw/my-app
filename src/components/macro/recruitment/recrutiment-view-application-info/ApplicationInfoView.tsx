@@ -7,6 +7,10 @@ import { useApplicationPreview } from '@/hooks/modules/useApplicationPreview';
 import { useEffect, useState } from 'react';
 import { downloadFile } from '@/helpers/storageHelpers';
 import { PdfViewer } from '@/components/micro/PdfViewer';
+import { Text } from '@/components/micro/Text';
+import { ActionButtons } from './ActionButtons';
+import { useRecruitmentFlow } from '@/hooks/modules/useRecruitmentFlow';
+import type { ApplicationStatus } from '@/constants/application-status';
 
 export function ApplicationInfoView() {
   const location = useLocation();
@@ -15,6 +19,8 @@ export function ApplicationInfoView() {
 
   const { methods, updateData, setSelectedFile, selectedFile } =
     useApplicationPreview();
+
+  const { setApplicationId, confirmAction } = useRecruitmentFlow();
 
   useEffect(() => {
     if (applicationData) {
@@ -37,24 +43,46 @@ export function ApplicationInfoView() {
     }
   }, [applicationData, updateData, setSelectedFile, selectedFile, selectedUrl]);
 
-  return (
-    <Flex w="100%" gap={4}>
-      {/* left side application details */}
-      <Box flex={1}>
-        <FormProvider {...methods}>
-          <ApplicationForm readOnly={true} file={null} />
-        </FormProvider>
-      </Box>
+  const handleConfirmAction = (status: ApplicationStatus) => {
+    setApplicationId(applicationData.id);
+    confirmAction(status);
+  }
 
-      {/* right side uploaded cv (if any) get from selectedFile */}
-      <Box flex={1}>
-        <h2>Uploaded CV</h2>
-        {selectedFile ? (
-          <PdfViewer fileUrl={selectedUrl!} />
-        ) : (
-          <p>No CV uploaded</p>
-        )}
+  return (
+    <Box position="relative" minHeight="100vh">
+      <Flex w="100%" gap={4}>
+        {/* left side application details */}
+        <Box flex={1}>
+          <FormProvider {...methods}>
+            <ApplicationForm readOnly={true} file={null} />
+          </FormProvider>
+        </Box>
+
+        {/* right side uploaded cv (if any) get from selectedFile */}
+        <Box flex={1}>
+          <Text variant='paragraphMedium'>Uploaded CV</Text>
+          {selectedFile ? (
+            <PdfViewer fileUrl={selectedUrl!} />
+          ) : (
+            <Text>No CV uploaded</Text>
+          )}
+        </Box>
+      </Flex>
+
+      {/* Sticky footer with action buttons */}
+      <Box
+        position="sticky"
+        bottom={4}
+        width="100%"
+        bg="white"
+        boxShadow="0 -2px 8px rgba(0,0,0,0.04)"
+        zIndex={10}
+        py={4}
+        px={4}
+        mt={8}
+      >
+        <ActionButtons onConfirm={handleConfirmAction} /> 
       </Box>
-    </Flex>
+    </Box>
   );
 }
