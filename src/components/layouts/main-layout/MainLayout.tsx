@@ -5,7 +5,7 @@ import { AvatarButton } from '../../macro/sidebar/AvatarButton';
 import { Text } from '../../micro/Text';
 import { NavLink } from './NavLink'; // wrapper we made earlier
 import type { NavItem } from '@/types/components/layouts/NavItem';
-import { kNavItems } from '@/constants/kNavItems';
+import { kNavItems } from '@/constants/navItems';
 
 interface LayoutProps {
   children: ReactNode;
