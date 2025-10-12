@@ -1,17 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import feedbackReducer from './feedbackSlice';
 
 export const store = configureStore({
-  reducer: {
-    feedback: feedbackReducer,
-  },
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActionPaths: ['payload.onConfirm'],
-        ignoredPaths: ['feedback.onConfirm'],
-      },
-    }),
+  reducer: {},
 });
 
 // Types for hooks

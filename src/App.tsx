@@ -10,7 +10,6 @@ import RecruitmentPage from './pages/recruitments/RecruitmentPage';
 import ApplicationPage from './pages/applications/ApplicationPage';
 import { ContainerLayout } from './components/layouts/ContainerLayout';
 import ApplicationPreviewPage from './pages/applications/ApplicationPreviewPage';
-import { GlobalFeedbackDialog } from './components/macro/GlobalFeedbackDialog';
 import { useCurrentUser } from './hooks/useCurrentUser';
 import { RecruitmentViewApplicationInfoPage } from './pages/recruitments/RecruitmentViewApplicationInfoPage';
 
@@ -59,7 +58,6 @@ function App() {
         {/* catch-all redirect */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
-      <GlobalFeedbackDialog />
     </>
   );
 }

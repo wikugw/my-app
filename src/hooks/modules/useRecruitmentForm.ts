@@ -9,14 +9,13 @@ import {
   type RecrutmentFormInputs,
 } from '@/validations/modules/recruitment-form';
 import type { RecruitmentFormType } from '@/types/modules/Recruitment';
-import { useDispatch } from 'react-redux';
-import { showFeedback } from '@/store/feedbackSlice';
 import { useNav } from '../useNav';
 import { fetchApplicationsByRecruitmentIdAndStatus } from '@/api-client/firebase/application';
 import type { ApplicationPreviewEntity } from '@/types/modules/Application';
 import Fuse from 'fuse.js';
 import { useCurrentUser } from '../useCurrentUser';
 import { kApplicationStatus } from '@/constants/application-status';
+import { showError, showSuccess } from '@/helpers/swalHelper';
 
 export type MatchedApplication = ApplicationPreviewEntity & {
   match: number;
@@ -24,7 +23,6 @@ export type MatchedApplication = ApplicationPreviewEntity & {
 
 export function useRecruitmentForm(id?: string) {
   const { user } = useCurrentUser();
-  const dispatch = useDispatch();
   const { back } = useNav();
 
   // Query Firestore when `id` is available
@@ -89,29 +87,19 @@ export function useRecruitmentForm(id?: string) {
       if (id) {
         // 🔹 UPDATE EXISTING DOCUMENT
         updateDocument('recruitments', id, payload);
-        dispatch(
-          showFeedback({
-            type: 'success',
-            message: 'Data updated successfully',
-            onConfirm: onSuccessConfirm,
-          })
-        );
+        showSuccess('Data updated successfully').then(() => {
+          onSuccessConfirm();
+        });
       } else {
         // 🔹 ADD NEW DOCUMENT
         await addDocument('recruitments', payload);
-        dispatch(
-          showFeedback({
-            type: 'success',
-            message: 'Data saved successfully',
-            onConfirm: onSuccessConfirm,
-          })
-        );
+        showSuccess('Data saved successfully').then(() => {
+          onSuccessConfirm();
+        });
       }
     } catch (e) {
       console.error('Error adding document:', e);
-      dispatch(
-        showFeedback({ type: 'failure', message: 'Failed to save data' })
-      );
+      showError('Failed to save data', (e as Error).message);
     }
   };
 

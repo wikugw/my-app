@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import { fetchRecruitmentById } from '@/api-client/firebase/recruitment';
@@ -13,15 +12,14 @@ import {
 import { pdfToApplicationData } from '@/helpers/pdfExtractor';
 import { uploadFileToStorage } from '@/helpers/storageHelpers';
 import { addDocument } from '@/helpers/firestoreHelpers';
-import { showFeedback } from '@/store/feedbackSlice';
 import { useNav } from '@/hooks/useNav';
 import { kApplicationStatus } from '@/constants/application-status';
 import { useCheckExistingApplication } from './useCheckExistingApplication';
+import { showError } from '@/helpers/swalHelper';
 
 export function useApplicationPreview() {
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const dispatch = useDispatch();
   const { back } = useNav();
   const checkApplication = useCheckExistingApplication();
 
@@ -52,12 +50,7 @@ export function useApplicationPreview() {
     });
 
     if (existing) {
-      dispatch(
-        showFeedback({
-          type: 'failure',
-          message: 'You have already applied for this recruitment.',
-        })
-      );
+      showError('You have already applied for this position.');
       return;
     }
 
@@ -81,12 +74,8 @@ export function useApplicationPreview() {
     setIsOpenForm(false);
     setSelectedFile(null);
 
-    dispatch(
-      showFeedback({
-        type: 'success',
-        message: 'Data updated successfully',
-        onConfirm: back,
-      })
+    showError('Data updated successfully', '').then(() =>
+      back()
     );
   };
 
@@ -95,9 +84,7 @@ export function useApplicationPreview() {
       await handleSubmit(data);
     } catch (error) {
       console.error('Error adding document:', error);
-      dispatch(
-        showFeedback({ type: 'failure', message: 'Failed to save data' })
-      );
+      showError('Failed to save data', (error as Error).message);
     }
   };
 

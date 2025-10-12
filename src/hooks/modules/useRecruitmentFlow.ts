@@ -1,14 +1,12 @@
 import { kApplicationStatus } from '@/constants/application-status';
-import { showFeedback } from '@/store/feedbackSlice';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useUpdateApplication } from './useUpdateApplication';
 import { useNav } from '../useNav';
 import { handleSendInvitation } from '@/helpers/email/sendInterviewHelper';
 import type { MatchedApplication } from './useRecruitmentForm';
+import { showError, showSuccess } from '@/helpers/swalHelper';
 
 export function useRecruitmentFlow() {
-  const dispatch = useDispatch();
   const [application, setApplication] = useState<MatchedApplication>(
     {} as MatchedApplication
   );
@@ -17,25 +15,14 @@ export function useRecruitmentFlow() {
   const [positionName, setPositionName] = useState<string>('');
 
   const handleSuccessAction = (successMessage: string) => {
-    dispatch(
-      showFeedback({
-        type: 'success',
-        message: successMessage,
-        onConfirm: () => {
-          back();
-        },
-      })
-    );
+    showSuccess(successMessage).then(() => {
+      back();
+    });
   };
 
   const handleFailureAction = (failureMessage: string, error: Error) => {
     console.error('Error updating application status:', error);
-    dispatch(
-      showFeedback({
-        type: 'failure',
-        message: failureMessage,
-      })
-    );
+    showError(failureMessage);
   };
 
   const proceedToInterview = () => {
