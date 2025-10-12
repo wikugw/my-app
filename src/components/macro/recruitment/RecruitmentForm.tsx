@@ -29,7 +29,7 @@ const RecruitmentForm = () => {
   }
 
   return (
-    <Flex w="100%" gap={4}>
+    <Flex w="100%" gap={4} direction={{ base: 'column-reverse', md: 'row' }}>
       <Box flex="1">
         <FormProvider {...methods}>
           <RecruitmentFormFields onSubmit={onSubmit} />

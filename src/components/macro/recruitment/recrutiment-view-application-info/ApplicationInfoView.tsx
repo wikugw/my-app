@@ -75,7 +75,7 @@ export function ApplicationInfoView() {
 
   return (
     <Box position="relative" minHeight="100vh">
-      <Flex w="100%" gap={4}>
+      <Flex w="100%" gap={4} direction={{ base: 'column-reverse', md: 'row' }}>
         {/* left side application details */}
         <Box flex={1}>
           <FormProvider {...methods}>

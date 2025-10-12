@@ -26,7 +26,7 @@ export function ApplicationPreview() {
   if (error) return <NoDataContainer text="Failed to load recruitment" />;
 
   return (
-    <Flex w="100%" gap={4}>
+    <Flex w="100%" gap={4} direction={{ base: 'column', md: 'row' }}>
       <Box flex="1">{data && <RecruitmentPreview values={data} />}</Box>
       <Box flex="1">
         <ApplicationPreviewHeaderButtons
