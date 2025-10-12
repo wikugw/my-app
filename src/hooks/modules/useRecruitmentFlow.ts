@@ -5,6 +5,7 @@ import { useNav } from '../useNav';
 import { handleSendInvitation } from '@/helpers/email/sendInterviewHelper';
 import type { MatchedApplication } from './useRecruitmentForm';
 import { showError, showSuccess } from '@/helpers/swalHelper';
+import { handleSendRejection } from '@/helpers/email/sendRejectionHelper';
 
 export function useRecruitmentFlow() {
   const [application, setApplication] = useState<MatchedApplication>(
@@ -63,6 +64,11 @@ export function useRecruitmentFlow() {
       },
       {
         onSuccess: () => {
+          handleSendRejection({
+            name: application?.name || 'Candidate',
+            email: application?.email || 'candidate@example.com',
+            position: positionName || 'the position',
+          });
           handleSuccessAction('Application has been declined.');
         },
         onError: error => {
