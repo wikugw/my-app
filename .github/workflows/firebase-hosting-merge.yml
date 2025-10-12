@@ -23,6 +23,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+      
+      - name: Debug file structure
+        run: |
+          find src -name "*.ts" -type f | grep -i nav
+          ls -la src/constants/
 
       - name: Build project (same as local)
         run: npm run build
