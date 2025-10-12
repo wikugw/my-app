@@ -14,6 +14,7 @@ import {
   kApplicationStatus,
   type ApplicationStatus,
 } from '@/constants/application-status';
+import { showConfirm } from '@/helpers/swalHelper';
 
 type ApplicationInfoViewState = MatchedApplication & {
   positionName: string;
@@ -65,7 +66,13 @@ export function ApplicationInfoView() {
     setPositionName,
   ]);
 
-  const handleConfirmAction = (status: ApplicationStatus) => {
+  const handleConfirmAction = async (status: ApplicationStatus) => {
+    const confirmed = await showConfirm(
+      'Confirmation',
+      'Are you sure you want to proceed with this action?'
+    );
+
+    if (!confirmed) return;
     if (status === kApplicationStatus.declined) {
       declineApplication();
     } else if (status === kApplicationStatus.approvedForInterview) {

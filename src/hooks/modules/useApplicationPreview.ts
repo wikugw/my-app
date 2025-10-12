@@ -15,7 +15,7 @@ import { addDocument } from '@/helpers/firestoreHelpers';
 import { useNav } from '@/hooks/useNav';
 import { kApplicationStatus } from '@/constants/application-status';
 import { useCheckExistingApplication } from './useCheckExistingApplication';
-import { showError } from '@/helpers/swalHelper';
+import { showError, showSuccess } from '@/helpers/swalHelper';
 
 export function useApplicationPreview() {
   const [isOpenForm, setIsOpenForm] = useState(false);
@@ -74,7 +74,7 @@ export function useApplicationPreview() {
     setIsOpenForm(false);
     setSelectedFile(null);
 
-    showError('Data updated successfully', '').then(() => back());
+    showSuccess('Data updated successfully', '').then(() => back());
   };
 
   const onSubmit = async (data: ApplicationFormInputs) => {
