@@ -6,6 +6,7 @@ import { NAVITEMS } from '../../../constants/navItems';
 import { AvatarButton } from '../../macro/sidebar/AvatarButton';
 import { Text } from '../../micro/Text';
 import { NavLink } from './NavLink'; // wrapper we made earlier
+import type { NavItem } from '@/types/components/layouts/NavItem';
 
 interface LayoutProps {
   children: ReactNode;
@@ -20,7 +21,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
       <Box as="aside" bg="gray.800" color="white" p={4}>
         <Flex direction="column" h="100%">
           <VStack align="stretch" gap={2} flex="1" overflowY="auto">
-            {NAVITEMS.map(item => {
+            {NAVITEMS.map((item: NavItem) => {
               const isActive = location.pathname === item.path;
               return (
                 <NavLink
