@@ -74,9 +74,7 @@ export function useApplicationPreview() {
     setIsOpenForm(false);
     setSelectedFile(null);
 
-    showError('Data updated successfully', '').then(() =>
-      back()
-    );
+    showError('Data updated successfully', '').then(() => back());
   };
 
   const onSubmit = async (data: ApplicationFormInputs) => {
