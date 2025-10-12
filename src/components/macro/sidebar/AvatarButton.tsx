@@ -21,7 +21,7 @@ export const AvatarButton = () => {
       size={'sm'}
     >
       <Popover.Trigger asChild>
-        <Button colorKey="gray" py={6}>
+        <Button colorKey="gray" py={6} w={{ base: '90%', md: 'full' }}>
           <AvatarPlacholder name={displayName} avatarUrl={photo} />
         </Button>
       </Popover.Trigger>
