@@ -1,12 +1,11 @@
 {
   "compilerOptions": {
-    "baseUrl": ".", // ✅ Add this
+    "moduleResolution": "Bundler",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
     "skipLibCheck": true,
     "module": "ESNext",
-    "moduleResolution": "Bundler"
   },
   "files": [],
   "references": [
