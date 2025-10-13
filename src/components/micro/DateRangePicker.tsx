@@ -1,23 +1,17 @@
-import 'react-datepicker/dist/react-datepicker.css';
-import '../../styles.css';
+import { Box, Input as ChakraInput, Stack } from "@chakra-ui/react";
+import { Controller, useFormContext } from "react-hook-form";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
+import { useState } from "react";
+import { Text } from "./Text";
+import { customDateFormat } from "@/helpers/dateFormat";
 
-import { Box, Input as ChakraInput, Stack } from '@chakra-ui/react';
-import ReactDatePicker from 'react-datepicker';
-import {
-  Controller,
-  type RegisterOptions,
-  useFormContext,
-} from 'react-hook-form';
-
-import { Text } from './Text';
-
-type Size = 'sm' | 'md' | 'lg';
+type Size = "sm" | "md" | "lg";
 
 interface DateRangeInputProps {
   name: string;
   label?: string;
   inputSize?: Size;
-  rules?: RegisterOptions;
   placeholderStart?: string;
   placeholderEnd?: string;
 }
@@ -25,32 +19,32 @@ interface DateRangeInputProps {
 export const DateRangeInput = ({
   name,
   label,
-  inputSize = 'md',
-  rules,
-  placeholderStart = 'Start Date',
-  placeholderEnd = 'End Date',
+  inputSize = "md",
+  placeholderStart = "Start Date",
+  placeholderEnd = "End Date",
 }: DateRangeInputProps) => {
   const {
     control,
-    formState: { errors },
     setValue,
     watch,
+    formState: { errors },
   } = useFormContext();
 
   const fieldError = errors[name];
-  const hasError = !!fieldError;
+  const [showCalendar, setShowCalendar] = useState(false);
+  const value = watch(name) || [null, null];
+  const [startDate, endDate] = value;
 
-  // initialize start/end from form values if available
-  const [startDate, endDate] = watch(name) || [null, null];
+  const formatDate = (date?: Date | null) =>
+    date ? customDateFormat(date, "YYYY-MM-DD") : "";
 
   return (
     <Controller
       name={name}
       control={control}
-      rules={rules}
       defaultValue={[null, null]}
       render={() => (
-        <Box w="100%">
+        <Box w="100%" position="relative">
           {label && (
             <Text
               as="label"
@@ -63,41 +57,57 @@ export const DateRangeInput = ({
             </Text>
           )}
 
-          <Stack direction={{ base: 'column', md: 'row' }} gap={2} w="100%">
-            <Box flex="1">
-              <ReactDatePicker
-                selected={startDate}
-                onChange={date => {
-                  setValue(name, [date, endDate], { shouldValidate: true });
-                }}
-                selectsStart
-                startDate={startDate}
-                endDate={endDate}
-                placeholderText={placeholderStart}
-                customInput={<ChakraInput size={inputSize} w="100%" />}
-                wrapperClassName="datepicker-wrapper"
-              />
-            </Box>
-            <Box flex="1">
-              <ReactDatePicker
-                selected={endDate}
-                onChange={date => {
-                  setValue(name, [startDate, date], { shouldValidate: true });
-                }}
-                selectsEnd
-                startDate={startDate}
-                endDate={endDate}
-                minDate={startDate || undefined}
-                placeholderText={placeholderEnd}
-                customInput={<ChakraInput size={inputSize} w="100%" />}
-                wrapperClassName="datepicker-wrapper"
-              />
-            </Box>
+          <Stack direction={{ base: "column", md: "row" }} gap={2}>
+            <ChakraInput
+              readOnly
+              size={inputSize}
+              value={formatDate(startDate)}
+              placeholder={placeholderStart}
+              onClick={() => setShowCalendar(!showCalendar)}
+            />
+            <ChakraInput
+              readOnly
+              size={inputSize}
+              value={formatDate(endDate)}
+              placeholder={placeholderEnd}
+              onClick={() => setShowCalendar(!showCalendar)}
+            />
           </Stack>
 
-          {hasError && (
+          {showCalendar && (
+            <Box
+              position="absolute"
+              zIndex={10}
+              bg="white"
+              mt={2}
+              boxShadow="md"
+              borderRadius="md"
+            >
+              <DayPicker
+                mode="range"
+                selected={{
+                  from: startDate || undefined,
+                  to: endDate || undefined,
+                }}
+                onSelect={(range) => {
+                  if (range?.from && range?.to) {
+                    setValue(name, [range.from, range.to], {
+                      shouldValidate: true,
+                    });
+                    setShowCalendar(false); // auto-close when done
+                  } else {
+                    setValue(name, [range?.from ?? null, range?.to ?? null], {
+                      shouldValidate: true,
+                    });
+                  }
+                }}
+              />
+            </Box>
+          )}
+
+          {fieldError && (
             <Text mt={1} variant="paragraphSmall" color="danger">
-              {String(fieldError.message ?? 'This field is required')}
+              {String(fieldError.message ?? "This field is required")}
             </Text>
           )}
         </Box>

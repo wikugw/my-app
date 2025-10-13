@@ -20,11 +20,11 @@ export default defineConfig({
       output: {
         manualChunks: {
           react: ["react", "react-dom"],
-          pdf: ["pdfjs-dist", "pdfjs-react-viewer"],
           vendor: ["@chakra-ui/react", "@emotion/react", "@emotion/styled", "framer-motion"],
           firebase: ["firebase/app", "firebase/auth", "firebase/storage", "firebase/firestore"],
-          datePicker: ["react-datepicker", "date-fns"],
+          datePicker: ["react-day-picker"],
           swal: ["sweetalert2"],
+          validation: ["yup", "react-hook-form", "@hookform/resolvers/yup"],
         },
       },
     },

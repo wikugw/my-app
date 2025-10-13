@@ -1,42 +1,36 @@
-import * as pdfjsLib from 'pdfjs-dist';
-import pdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
-import type { TextItem } from 'pdfjs-dist/types/src/display/api';
-
-// Tell pdfjs where the worker file is
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
-
 export const pdfToApplicationData = async (file: File) => {
+  // ⏳ Dynamically import pdfjs only when this function is called
+  const pdfjsLib = await import('pdfjs-dist');
+  const pdfWorker = (await import('pdfjs-dist/build/pdf.worker.min.mjs?url')).default;
+
+  // Configure worker at runtime
+  pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
+
+  // Load and parse PDF
   const arrayBuffer = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
 
   let fullText = '';
 
-  // Extract text from each page
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
     const textContent = await page.getTextContent();
     const pageText = textContent.items
-      .map(item => (item as TextItem).str)
+      .map((item: any) => item.str)
       .join(' ');
     fullText += ' ' + pageText;
   }
 
-  console.log('Extracted text:', fullText);
-
-  // 🧩 Normalize
   const cleanText = fullText.replace(/\s+/g, ' ').trim();
 
-  // 📧 Email
   const emailMatch = cleanText.match(
     /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/
   );
   const email = emailMatch ? emailMatch[0] : '';
 
-  // 🧍 Name (usually the first line, before address or contact info)
   const nameMatch = cleanText.match(/^([A-Z][a-z]+(?:\s[A-Z][a-z]+)+)/);
   const name = nameMatch ? nameMatch[1].trim() : '';
 
-  // 🧠 Extract skills from the “Skills & Abilities” section
   const skillsSectionMatch = cleanText.match(
     /Skills & Abilities(.*?)(?:Portfolio|Education)/i
   );
@@ -56,9 +50,5 @@ export const pdfToApplicationData = async (file: File) => {
       );
   }
 
-  return {
-    name,
-    email,
-    skills,
-  };
+  return { name, email, skills };
 };
