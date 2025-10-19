@@ -1,3 +1,5 @@
+import type { TextItem } from 'pdfjs-dist/types/src/display/api';
+
 export const pdfToApplicationData = async (file: File) => {
   // ⏳ Dynamically import pdfjs only when this function is called
   const pdfjsLib = await import('pdfjs-dist');
@@ -15,8 +17,8 @@ export const pdfToApplicationData = async (file: File) => {
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
     const textContent = await page.getTextContent();
-    const pageText = textContent.items
-      .map((item: any) => item.str)
+    const pageText = (textContent.items as unknown as TextItem[])
+      .map((item: TextItem) => item.str)
       .join(' ');
     fullText += ' ' + pageText;
   }
