@@ -45,6 +45,7 @@ jobs:
           VITE_EMAILJS_REJECTION_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_REJECTION_TEMPLATE_ID }}
           VITE_SENDER_EMAIL: ${{ secrets.VITE_SENDER_EMAIL }}
           VITE_SENDER_NAME: ${{ secrets.VITE_SENDER_NAME }}
+          VITE_SERVICE_BASE_URL: ${{ secrets.VITE_SERVICE_BASE_URL }}
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
