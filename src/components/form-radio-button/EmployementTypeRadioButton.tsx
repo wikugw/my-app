@@ -1,10 +1,6 @@
+import { useEmploymentTypes } from '@/hooks/modules/useEmploymentType';
 import { RadioButton, type RadioButtonProps } from '../micro/RadioButton';
-
-const jobPositions = [
-  { label: 'Full Time', value: 'fulltime' },
-  { label: 'Part Time', value: 'parttime' },
-  { label: 'Contract', value: 'contract' },
-];
+import { useMemo } from 'react';
 
 type JobPositionSelectProps = Omit<RadioButtonProps, 'options'>;
 
@@ -15,12 +11,25 @@ export const EmployementTypeRadioButton = ({
   rules,
   ...props
 }: JobPositionSelectProps) => {
+  const { data, isFetching } = useEmploymentTypes();
+
+  const options = useMemo(() => {
+    if (!data) return []
+    if (isFetching) return []
+    return data.map((d) => {
+      return {
+        value: d.Name,
+        label: d.Name
+      }
+    })
+  }, [data])
+
   return (
     <RadioButton
       name={name}
       label={label}
       rules={rules}
-      options={jobPositions}
+      options={options}
       radioSize={radioSize}
       {...props}
     />
