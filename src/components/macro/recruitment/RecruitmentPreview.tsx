@@ -21,7 +21,7 @@ const RecruitmentPreview = ({
       <Stack gap={2}>
         <Text>Posisi: {values.position}</Text>
         <Text>Gaji: {formatIDR(values.salary ?? 0)}</Text>
-        <Text>Jenis: {values.employementType}</Text>
+        <Text>Jenis: {values.employmentType}</Text>
         <Text>
           Jangka waktu:{' '}
           {values.applicationDates?.map(d => SimpleDate(d ?? '')).join(' → ')}

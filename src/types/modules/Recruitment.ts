@@ -12,5 +12,5 @@ export type RecruitmentPreviewType = Omit<
 };
 
 export type RecruitmentFormType = RecrutmentFormInputs & {
-  createdBy: User;
+  createdById: number;
 };

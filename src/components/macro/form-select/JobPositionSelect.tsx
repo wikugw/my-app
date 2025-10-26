@@ -20,7 +20,7 @@ export const JobPositionSelect = ({
     if (isFetching) return []
     return data.map((d) => {
       return {
-        value: d.Name,
+        value: d.ID,
         label: d.Name
       }
     })

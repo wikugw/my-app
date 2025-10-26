@@ -22,7 +22,7 @@ export const recruitmentFormSchema = yup.object({
     }),
   position: yup.string().required(),
   salary: yup.number().required().min(0),
-  employementType: yup.string().required(),
+  employmentType: yup.string().required(),
   requirements: yup
     .array()
     .of(yup.string().required('Skills are required'))

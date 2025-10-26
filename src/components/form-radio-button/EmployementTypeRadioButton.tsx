@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 
 type JobPositionSelectProps = Omit<RadioButtonProps, 'options'>;
 
-export const EmployementTypeRadioButton = ({
+export const EmploymentTypeRadioButton = ({
   name,
   label,
   radioSize = 'md',
@@ -18,7 +18,7 @@ export const EmployementTypeRadioButton = ({
     if (isFetching) return []
     return data.map((d) => {
       return {
-        value: d.Name,
+        value: d.ID,
         label: d.Name
       }
     })

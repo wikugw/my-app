@@ -18,7 +18,7 @@ export function RequirementViewCard({
     <Box borderWidth="1px" borderRadius="md" p={4} shadow="sm">
       <Text fontWeight="bold">{r.position}</Text>
       <Text>Salary: {formatIDR(r.salary)}</Text>
-      <Text>Type: {r.employementType}</Text>
+      <Text>Type: {r.employmentType}</Text>
       <Text fontSize="sm" color="gray">
         Created by {r.createdBy?.name ?? 'Unknown'} on{' '}
         {r.createdAt && SimpleDate(r.createdAt)}

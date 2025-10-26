@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useQuery } from '@tanstack/react-query';
-import { addDocument, updateDocument } from '@/helpers/firestoreHelpers';
+import { addDocument } from '@/helpers/firestoreHelpers';
 import { fetchRecruitmentById } from '@/api-client/firebase/recruitment';
 import {
   recruitmentFormSchema,
@@ -16,14 +16,16 @@ import Fuse from 'fuse.js';
 import { useCurrentUser } from '../useCurrentUser';
 import { kApplicationStatus } from '@/constants/application-status';
 import { showError, showSuccess } from '@/helpers/swalHelper';
+import { useCreateRecruitment } from './recruitment/useCreateRecruitment';
 
 export type MatchedApplication = ApplicationPreviewEntity & {
   match: number;
 };
 
 export function useRecruitmentForm(id?: string) {
-  const { user } = useCurrentUser();
+  const { employeeInfo } = useCurrentUser();
   const { back } = useNav();
+  const createRecruitment = useCreateRecruitment();
 
   // Query Firestore when `id` is available
   const {
@@ -78,23 +80,24 @@ export function useRecruitmentForm(id?: string) {
         applicationDates: formData.applicationDates?.map(d =>
           d ? new Date(d) : null
         ),
-        createdBy: {
-          email: user?.email ?? '',
-          name: user?.displayName ?? '',
-        },
+        createdById: employeeInfo?.id ?? -1
       };
-
+      debugger
       if (id) {
         // 🔹 UPDATE EXISTING DOCUMENT
-        updateDocument('recruitments', id, payload);
+        createRecruitment.mutate(payload)
+        // updateDocument('recruitments', id, payload);
         showSuccess('Data updated successfully').then(() => {
           onSuccessConfirm();
         });
       } else {
         // 🔹 ADD NEW DOCUMENT
-        await addDocument('recruitments', payload);
-        showSuccess('Data saved successfully').then(() => {
-          onSuccessConfirm();
+        createRecruitment.mutate(payload, {
+          onSuccess: () => {
+            showSuccess("Data saved successfully").then(() => {
+              onSuccessConfirm();
+            });
+          },
         });
       }
     } catch (e) {

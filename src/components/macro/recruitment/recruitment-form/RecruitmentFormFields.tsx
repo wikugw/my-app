@@ -3,7 +3,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { DateRangeInput } from '@/components/micro/DateRangePicker';
 
-import { EmployementTypeRadioButton } from '../../../form-radio-button/EmployementTypeRadioButton';
+import { EmploymentTypeRadioButton } from '../../../form-radio-button/EmployementTypeRadioButton';
 import { Button } from '../../../micro/button/Button';
 import { Input } from '../../../micro/input/Input';
 import { JobPositionSelect } from '../../form-select/JobPositionSelect';
@@ -46,8 +46,8 @@ const RecruitmentFormFields = ({ onSubmit }: Props) => {
 
         <Input name="salary" type="number" label="Gaji" />
 
-        <EmployementTypeRadioButton
-          name="employementType"
+        <EmploymentTypeRadioButton
+          name="employmentType"
           label="Tipe Rekrutmen"
         />
 
