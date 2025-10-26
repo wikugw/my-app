@@ -2,7 +2,6 @@ import { useEffect, useMemo } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useQuery } from '@tanstack/react-query';
-import { addDocument } from '@/helpers/firestoreHelpers';
 import { fetchRecruitmentById } from '@/api-client/firebase/recruitment';
 import {
   recruitmentFormSchema,
