@@ -1,4 +1,4 @@
-import type { NavItem } from '../types/components/layouts/NavItem';
+import type { NavItem } from "@/types/components/layouts/NavItem";
 
 export const kNavItems: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', path: '/' },

@@ -14,15 +14,15 @@ export const EmploymentTypeRadioButton = ({
   const { data, isFetching } = useEmploymentTypes();
 
   const options = useMemo(() => {
-    if (!data) return []
-    if (isFetching) return []
-    return data.map((d) => {
+    if (!data) return [];
+    if (isFetching) return [];
+    return data.map(d => {
       return {
         value: d.ID,
-        label: d.Name
-      }
-    })
-  }, [data])
+        label: d.Name,
+      };
+    });
+  }, [data, isFetching]);
 
   return (
     <RadioButton

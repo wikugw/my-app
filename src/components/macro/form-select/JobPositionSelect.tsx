@@ -12,26 +12,25 @@ export const JobPositionSelect = ({
   placeholder = 'Select option',
   ...props
 }: JobPositionSelectProps) => {
-
   const { data, isFetching } = useDepartments();
 
   const options = useMemo(() => {
-    if (!data) return []
-    if (isFetching) return []
-    return data.map((d) => {
+    if (!data) return [];
+    if (isFetching) return [];
+    return data.map(d => {
       return {
         value: d.ID,
-        label: d.Name
-      }
-    })
-  }, [data])
+        label: d.Name,
+      };
+    });
+  }, [data, isFetching]);
   return (
     <FormSelect
       name={name}
       label={label}
       rules={rules}
       options={options}
-      placeholder={isFetching ? "getting data" : placeholder}
+      placeholder={isFetching ? 'getting data' : placeholder}
       selectSize={selectSize}
       {...props}
     />

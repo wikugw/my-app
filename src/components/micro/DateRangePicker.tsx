@@ -1,12 +1,12 @@
-import { Box, Input as ChakraInput, Stack } from "@chakra-ui/react";
-import { Controller, useFormContext } from "react-hook-form";
-import { DayPicker } from "react-day-picker";
-import "react-day-picker/dist/style.css";
-import { useState } from "react";
-import { Text } from "./Text";
-import { customDateFormat } from "@/helpers/dateFormat";
+import { Box, Input as ChakraInput, Stack } from '@chakra-ui/react';
+import { Controller, useFormContext } from 'react-hook-form';
+import { DayPicker } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
+import { useState } from 'react';
+import { Text } from './Text';
+import { customDateFormat } from '@/helpers/dateFormat';
 
-type Size = "sm" | "md" | "lg";
+type Size = 'sm' | 'md' | 'lg';
 
 interface DateRangeInputProps {
   name: string;
@@ -19,9 +19,9 @@ interface DateRangeInputProps {
 export const DateRangeInput = ({
   name,
   label,
-  inputSize = "md",
-  placeholderStart = "Start Date",
-  placeholderEnd = "End Date",
+  inputSize = 'md',
+  placeholderStart = 'Start Date',
+  placeholderEnd = 'End Date',
 }: DateRangeInputProps) => {
   const {
     control,
@@ -36,7 +36,7 @@ export const DateRangeInput = ({
   const [startDate, endDate] = value;
 
   const formatDate = (date?: Date | null) =>
-    date ? customDateFormat(date, "YYYY-MM-DD") : "";
+    date ? customDateFormat(date, 'YYYY-MM-DD') : '';
 
   return (
     <Controller
@@ -57,7 +57,7 @@ export const DateRangeInput = ({
             </Text>
           )}
 
-          <Stack direction={{ base: "column", md: "row" }} gap={2}>
+          <Stack direction={{ base: 'column', md: 'row' }} gap={2}>
             <ChakraInput
               readOnly
               size={inputSize}
@@ -89,7 +89,7 @@ export const DateRangeInput = ({
                   from: startDate || undefined,
                   to: endDate || undefined,
                 }}
-                onSelect={(range) => {
+                onSelect={range => {
                   if (range?.from && range?.to) {
                     setValue(name, [range.from, range.to], {
                       shouldValidate: true,
@@ -107,7 +107,7 @@ export const DateRangeInput = ({
 
           {fieldError && (
             <Text mt={1} variant="paragraphSmall" color="danger">
-              {String(fieldError.message ?? "This field is required")}
+              {String(fieldError.message ?? 'This field is required')}
             </Text>
           )}
         </Box>

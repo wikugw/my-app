@@ -8,7 +8,9 @@ type PdfViewerProps = {
 };
 
 // Lazy load PDFJSViewer
-const PDFJSViewer = lazy(() => import('pdfjs-react-viewer').then(module => ({ default: module.PDFJSViewer })));
+const PDFJSViewer = lazy(() =>
+  import('pdfjs-react-viewer').then(module => ({ default: module.PDFJSViewer }))
+);
 
 export function PdfViewer({
   fileUrl,

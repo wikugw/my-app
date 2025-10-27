@@ -1,4 +1,4 @@
-import type { GeneralResponse } from "../response";
+import type { GeneralResponse } from '../response';
 
 export interface Department {
   ID: number;
@@ -7,4 +7,4 @@ export interface Department {
   UpdatedAt: string;
 }
 
-export type DepartmentResponse = GeneralResponse<Department[]>
+export type DepartmentResponse = GeneralResponse<Department[]>;

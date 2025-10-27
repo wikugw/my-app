@@ -79,12 +79,11 @@ export function useRecruitmentForm(id?: string) {
         applicationDates: formData.applicationDates?.map(d =>
           d ? new Date(d) : null
         ),
-        createdById: employeeInfo?.id ?? -1
+        createdById: employeeInfo?.id ?? -1,
       };
-      debugger
       if (id) {
         // 🔹 UPDATE EXISTING DOCUMENT
-        createRecruitment.mutate(payload)
+        createRecruitment.mutate(payload);
         // updateDocument('recruitments', id, payload);
         showSuccess('Data updated successfully').then(() => {
           onSuccessConfirm();
@@ -93,7 +92,7 @@ export function useRecruitmentForm(id?: string) {
         // 🔹 ADD NEW DOCUMENT
         createRecruitment.mutate(payload, {
           onSuccess: () => {
-            showSuccess("Data saved successfully").then(() => {
+            showSuccess('Data saved successfully').then(() => {
               onSuccessConfirm();
             });
           },

@@ -1,5 +1,5 @@
-import { authApi } from "@/api-client/auth/authApi";
-import { useMutation } from "@tanstack/react-query";
+import { authApi } from '@/api-client/auth/authApi';
+import { useMutation } from '@tanstack/react-query';
 
 export function useLoginWithGoogle() {
   return useMutation({
@@ -9,7 +9,7 @@ export function useLoginWithGoogle() {
       return jwt;
     },
     onError: (error: Error) => {
-      console.error("❌ Login gagal:", error);
+      console.error('❌ Login gagal:', error);
     },
   });
 }

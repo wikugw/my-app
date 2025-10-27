@@ -6,12 +6,16 @@ import { useLoginWithGoogle } from './auth/useGoogleLogin';
 
 export function useCurrentUser() {
   const [user, loading, error] = useAuthState(auth);
-  const { data: employeeInfo, isLoading: isGetEmployeeLoading, isError } = useEmployeeByEmail(user?.email );
+  const {
+    data: employeeInfo,
+    isLoading: isGetEmployeeLoading,
+    isError,
+  } = useEmployeeByEmail(user?.email);
   const { mutate: loginWithGoogle, isPending } = useLoginWithGoogle();
 
   const isLoading = useMemo(() => {
-    return loading || isGetEmployeeLoading || isPending
-  }, [loading, isGetEmployeeLoading])
+    return loading || isGetEmployeeLoading || isPending;
+  }, [loading, isGetEmployeeLoading, isPending]);
 
   useEffect(() => {
     if (!user) return;
@@ -20,11 +24,13 @@ export function useCurrentUser() {
     user.getIdToken().then((idToken: string) => {
       loginWithGoogle(idToken);
     });
-  }, [user?.getIdToken, user?.getIdTokenResult]);
+  }, [user?.getIdToken, user?.getIdTokenResult, loginWithGoogle, user]);
 
   return {
     user,
     error,
-    employeeInfo, isLoading, isError
+    employeeInfo,
+    isLoading,
+    isError,
   };
 }

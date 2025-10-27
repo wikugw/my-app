@@ -16,15 +16,11 @@ import { NavLink } from './NavLink';
 import type { NavItem } from '@/types/components/layouts/NavItem';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useLoginWithGoogle } from '@/hooks/auth/useGoogleLogin';
+import { kNavItems } from '@/constants/nav-items';
 
 interface LayoutProps {
   children: ReactNode;
 }
-
-export const kNavItems: NavItem[] = [
-  { id: 'dashboard', label: 'Dashboard', path: '/' },
-  { id: 'recruitment', label: 'Recruitment', path: '/recruitment' },
-];
 
 const SidebarContent = ({ onClose }: { onClose?: () => void }) => {
   const location = useLocation();
@@ -39,8 +35,14 @@ const SidebarContent = ({ onClose }: { onClose?: () => void }) => {
       h="full"
       p={{ base: 0, md: 4 }}
     >
-  <Flex direction="column" h="100%" p={{ base: 4, md: 0 }}>
-        <VStack align="stretch" w={{ base: '90%', md: 'full' }} gap={2} flex="1" overflowY="auto">
+      <Flex direction="column" h="100%" p={{ base: 4, md: 0 }}>
+        <VStack
+          align="stretch"
+          w={{ base: '90%', md: 'full' }}
+          gap={2}
+          flex="1"
+          overflowY="auto"
+        >
           {kNavItems.map((item: NavItem) => {
             const isActive = location.pathname === item.path;
             return (
@@ -88,65 +90,64 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
     user.getIdToken().then((idToken: string) => {
       loginWithGoogle(idToken);
     });
-  }, [user?.getIdToken, user?.getIdTokenResult]);
+  }, [user?.getIdToken, user?.getIdTokenResult, user, loginWithGoogle]);
 
-  return (
-    isPending ? (
-      <Text fontWeight="bold" color="gray">
-        Getting token...
-      </Text>
-    ) : (
-      <Flex minH="100vh" bg="gray.50">
-        {/* Sidebar for desktop */}
-        {isDesktop ? (
-          <SidebarContent />
-        ) : (
-          <Drawer.Root open={open} onOpenChange={(details) => setOpen(details.open)}>
-            <Drawer.Backdrop />
-            <Drawer.Positioner>
-              <Drawer.Content p="0" m="0" w="100%">
-                <SidebarContent onClose={() => setOpen(false)} />
-              </Drawer.Content>
-            </Drawer.Positioner>
-          </Drawer.Root>
+  return isPending ? (
+    <Text fontWeight="bold" color="gray">
+      Getting token...
+    </Text>
+  ) : (
+    <Flex minH="100vh" bg="gray.50">
+      {/* Sidebar for desktop */}
+      {isDesktop ? (
+        <SidebarContent />
+      ) : (
+        <Drawer.Root
+          open={open}
+          onOpenChange={details => setOpen(details.open)}
+        >
+          <Drawer.Backdrop />
+          <Drawer.Positioner>
+            <Drawer.Content p="0" m="0" w="100%">
+              <SidebarContent onClose={() => setOpen(false)} />
+            </Drawer.Content>
+          </Drawer.Positioner>
+        </Drawer.Root>
+      )}
+
+      {/* Main Content */}
+      <Box flex="1" ml={{ base: 0, md: 60 }} p={4}>
+        {/* Mobile top bar */}
+        {!isDesktop && (
+          <Flex
+            as="header"
+            align="center"
+            justify="space-between"
+            bg="white"
+            borderBottomWidth="1px"
+            p={2}
+            mb={4}
+            boxShadow="sm"
+          >
+            <IconButton
+              aria-label="Toggle menu"
+              variant="ghost"
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <FaTimes /> : <FaBars />}
+            </IconButton>
+            <Text fontWeight="bold" color="gray">
+              My App
+            </Text>
+            <Box></Box>
+            {/* <AvatarButton /> */}
+          </Flex>
         )}
 
-        {/* Main Content */}
-        <Box flex="1" ml={{ base: 0, md: 60 }} p={4}>
-          {/* Mobile top bar */}
-          {!isDesktop && (
-            <Flex
-              as="header"
-              align="center"
-              justify="space-between"
-              bg="white"
-              borderBottomWidth="1px"
-              p={2}
-              mb={4}
-              boxShadow="sm"
-            >
-              <IconButton
-                aria-label="Toggle menu"
-                variant="ghost"
-                onClick={() => setOpen(!open)}
-              >
-                {open ? <FaTimes /> : <FaBars />}
-              </IconButton>
-              <Text fontWeight="bold" color="gray">
-                My App
-              </Text>
-              <Box>
-
-              </Box>
-              {/* <AvatarButton /> */}
-            </Flex>
-          )}
-
-          {children}
-        </Box>
-      </Flex>
-    )
-  )
+        {children}
+      </Box>
+    </Flex>
+  );
 };
 
 export default MainLayout;

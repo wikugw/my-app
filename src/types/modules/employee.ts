@@ -1,11 +1,11 @@
-import type { GeneralResponse } from "../response";
+import type { GeneralResponse } from '../response';
 
 export type CreateEmployeeRequest = {
   fullName: string;
   email: string;
   position: string;
   department: string;
-}
+};
 
 export interface EmployeeDetail {
   id: number;
@@ -16,4 +16,4 @@ export interface EmployeeDetail {
   hireDate: string; // gunakan string karena biasanya dari API berupa ISO date string
 }
 
-export type EmployeeResponse = GeneralResponse<EmployeeDetail>
+export type EmployeeResponse = GeneralResponse<EmployeeDetail>;

@@ -3,7 +3,8 @@ import type { TextItem } from 'pdfjs-dist/types/src/display/api';
 export const pdfToApplicationData = async (file: File) => {
   // ⏳ Dynamically import pdfjs only when this function is called
   const pdfjsLib = await import('pdfjs-dist');
-  const pdfWorker = (await import('pdfjs-dist/build/pdf.worker.min.mjs?url')).default;
+  const pdfWorker = (await import('pdfjs-dist/build/pdf.worker.min.mjs?url'))
+    .default;
 
   // Configure worker at runtime
   pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
