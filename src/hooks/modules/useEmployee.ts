@@ -4,7 +4,6 @@ import type {
   EmployeeDetail,
   EmployeeResponse,
 } from '@/types/modules/employee';
-// import type { EmployeeResponse } from "@/types/modules/employee";
 
 export const useEmployeeByEmail = (email?: string | null) => {
   return useQuery<EmployeeDetail>({

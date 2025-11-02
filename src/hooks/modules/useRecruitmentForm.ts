@@ -16,6 +16,7 @@ import { useCurrentUser } from '../useCurrentUser';
 import { kApplicationStatus } from '@/constants/application-status';
 import { showError, showSuccess } from '@/helpers/swalHelper';
 import { useCreateRecruitment } from './recruitment/useCreateRecruitment';
+import { parseDateString } from '@/helpers/dateFormat';
 
 export type MatchedApplication = ApplicationPreviewEntity & {
   match: number;
@@ -64,6 +65,10 @@ export function useRecruitmentForm(id?: string) {
     if (data) {
       methods.reset({
         ...data,
+        applicationDates: [
+          parseDateString(data.applicationDates[0]),
+          parseDateString(data.applicationDates[1]),
+        ]
       });
     }
   }, [data, methods]);

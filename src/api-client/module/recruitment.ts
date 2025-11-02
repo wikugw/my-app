@@ -6,4 +6,10 @@ export const recruitmentApi = {
     const res = await axiosClient.post('/recruitments', data);
     return res.data;
   },
+  async getListActive(currentDate: string) {
+    const res = await axiosClient.get('/recruitments/active', {
+      params: { currentDate },
+    });
+    return res.data;
+  },
 };

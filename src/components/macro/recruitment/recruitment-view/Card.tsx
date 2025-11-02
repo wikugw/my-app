@@ -20,7 +20,7 @@ export function RequirementViewCard({
       <Text>Salary: {formatIDR(r.salary)}</Text>
       <Text>Type: {r.employmentType}</Text>
       <Text fontSize="sm" color="gray">
-        Created by {r.createdBy?.name ?? 'Unknown'} on{' '}
+        Created by {r.createdBy ?? 'Unknown'} on{' '}
         {r.createdAt && SimpleDate(r.createdAt)}
       </Text>
       <NavButton

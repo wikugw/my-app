@@ -1,26 +1,25 @@
 import { Box } from '@chakra-ui/react';
-import { useQuery } from '@tanstack/react-query';
 import { NavButton } from '../../micro/button/NavButton';
-import { fetchRecruitments } from '@/api-client/firebase/recruitment';
 import { FullScreenSpinner } from '@/components/micro/FullScreenSpinner';
 import { NoDataContainer } from '@/components/micro/NoDataContainer';
 import { RecruitmentViewGrid } from './recruitment-view/Grid';
+import { useActiveRecruitments } from '@/hooks/modules/recruitment/useActiveRecruitment';
+import { getCurrentDate } from '@/helpers/dateFormat';
+
+const dateTime = getCurrentDate()
 
 const RecruitmentView = () => {
   const {
-    data: recruitments,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ['recruitments'],
-    queryFn: fetchRecruitments,
-  });
+      data: recruitments,
+      isLoading,
+      isError,
+    } = useActiveRecruitments(dateTime);
 
   if (isLoading) {
     return <FullScreenSpinner />;
   }
 
-  if (error) {
+  if (isError) {
     return <NoDataContainer text="Failed to load recruitments" />;
   }
 

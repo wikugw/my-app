@@ -14,3 +14,12 @@ export const customDateFormat = (
 ) => {
   return isoDate ? dayjs(isoDate).format(format) : '';
 };
+
+export const getCurrentDate = () => {
+  return dayjs().toISOString()
+}
+
+export function parseDateString(dateString: string): Date | null {
+  const parsed = dayjs(dateString)
+  return parsed.isValid() ? parsed.toDate() : null
+}
