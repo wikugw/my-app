@@ -12,4 +12,8 @@ export const recruitmentApi = {
     });
     return res.data;
   },
+  async getById(id: number) {
+    const res = await axiosClient.get(`/recruitments/${id}`);
+    return res.data;
+  },
 };

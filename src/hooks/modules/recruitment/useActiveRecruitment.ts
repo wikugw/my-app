@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { recruitmentApi } from '@/api-client/module/recruitment';
-import type { RecruitmentPreviewType, RecruitmentResponse } from '@/types/modules/Recruitment';
+import type { RecruitmentPreviewType, RecruitmentResponse, SingleRecruitmentResponse } from '@/types/modules/Recruitment';
 
 export const useActiveRecruitments = (currentDate?: string | null) => {
   return useQuery<RecruitmentPreviewType[]>({
@@ -12,5 +12,18 @@ export const useActiveRecruitments = (currentDate?: string | null) => {
       return data.data;
     },
     enabled: !!currentDate, // hanya jalan kalau email ada
+  });
+};
+
+export const useGetRecruitmentById = (id?: number | null) => {
+  return useQuery<RecruitmentPreviewType>({
+    queryKey: ['recruitment', id], // cache per email
+    queryFn: async () => {
+      if (!id) throw new Error('Email is required');
+      const data: SingleRecruitmentResponse = await recruitmentApi.getById(id);
+      console.log(data);
+      return data.data;
+    },
+    enabled: !!id, // hanya jalan kalau email ada
   });
 };

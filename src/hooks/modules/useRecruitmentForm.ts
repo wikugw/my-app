@@ -2,7 +2,6 @@ import { useEffect, useMemo } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useQuery } from '@tanstack/react-query';
-import { fetchRecruitmentById } from '@/api-client/firebase/recruitment';
 import {
   recruitmentFormSchema,
   type RecrutmentFormInputs,
@@ -17,6 +16,7 @@ import { kApplicationStatus } from '@/constants/application-status';
 import { showError, showSuccess } from '@/helpers/swalHelper';
 import { useCreateRecruitment } from './recruitment/useCreateRecruitment';
 import { parseDateString } from '@/helpers/dateFormat';
+import { useGetRecruitmentById } from './recruitment/useActiveRecruitment';
 
 export type MatchedApplication = ApplicationPreviewEntity & {
   match: number;
@@ -32,11 +32,7 @@ export function useRecruitmentForm(id?: string) {
     data,
     isLoading: isGetRecruitmentLoading,
     error: getRecruitmentError,
-  } = useQuery({
-    queryKey: ['recruitment', id],
-    queryFn: () => fetchRecruitmentById(id!),
-    enabled: !!id,
-  });
+  } = useGetRecruitmentById(Number(id));
 
   const {
     data: applications,
@@ -63,6 +59,7 @@ export function useRecruitmentForm(id?: string) {
 
   useEffect(() => {
     if (data) {
+      console.log(data)
       methods.reset({
         ...data,
         applicationDates: [
@@ -142,7 +139,7 @@ export function useRecruitmentForm(id?: string) {
       });
 
       // Aggregate match score
-      const totalScore = normalizedRequirements.reduce((sum, req) => {
+      const totalScore = normalizedRequirements.reduce((sum: number, req: string) => {
         const bestMatch = fuse.search(req)[0];
         const score = bestMatch ? 1 - (bestMatch.score ?? 1) : 0;
         return sum + score;

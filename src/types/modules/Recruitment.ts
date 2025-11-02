@@ -24,3 +24,5 @@ export type RecruitmentPreviewType = Omit<RecruitmentFormType, "createdById" | "
 
 export type RecruitmentResponse = GeneralResponse<RecruitmentPreviewType[]>
 
+export type SingleRecruitmentResponse = GeneralResponse<RecruitmentPreviewType>
+
